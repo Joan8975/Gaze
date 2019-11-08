@@ -1,12 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { Provider } from 'react-redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import promise from 'redux-promise-middleware';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import navReducer from './reducer';
+import fieldReducer from './reducer';
+import postsReducer from './reducer';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const reducers = combineReducers({
+  nav: navReducer,
+  fields: fieldReducer,
+  posts: postsReducer,
+});
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const store = createStore(reducers, applyMiddleware(promise));
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>, document.getElementById('root'),
+);

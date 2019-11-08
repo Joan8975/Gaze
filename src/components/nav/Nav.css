@@ -1,0 +1,136 @@
+/* *{
+	outline: 1px solid pink;
+	
+} */
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+nav{
+	font-size: 0px;
+	text-align: right;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.nav_bar{
+	width: 100vw;
+	margin: auto;
+	background-color: #fff;
+	box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.05);
+	text-align: center;
+	position: fixed;
+	top:0px;
+	z-index: 5;
+	/* margin-top: 16px; */
+	height: 80px;
+	padding: 0px 60px;
+}
+.tab_home{
+	font-size: 20px;
+	font-weight: bold;
+	float: left;
+	margin-top: 15px;
+	padding: 8px;
+	color: #243d93;
+	border: 4px solid #243d93;
+}
+
+.tab{
+	font-size:16px;
+}
+.tab{
+	margin: 0px 10px;
+	/* font-family: 'Roboto Mono', monospace; */
+	background: none;
+	/* border: 0px; */
+	/* font-size: 16px; */
+	display: inline-block;
+	line-height: 80px;
+	padding: 0px 20px;
+	/* text-decoration: none; */
+	color: #a0a0a0;
+	cursor: pointer;
+	position: relative;
+}
+.tab::after{
+	content: "";
+    display: block;
+    width: 0px;
+	height: 4px;
+	position: absolute;
+	bottom: 0px;
+	left: 20px;
+	background: #243d93;
+    /* margin-top: -58px; */
+    transition: all 0.6s ease 0s;
+}
+
+.tab:hover::after {
+	width: 40px;
+	height: 4px;
+	background: #243d93;
+}
+.tab:focus{
+	outline: none;
+	color:#243d93;
+}
+.tab:hover{
+	color:#243d93;
+}
+.tab_active{
+	color:#243d93;
+}
+
+/* .tab_active::after{
+	content: "";
+    display: block;
+    width: 40px;
+	height: 4px;
+	position: absolute;
+	bottom: 0px;
+	left: 20px;
+    background: #243d93;
+    transition: all 0.6s ease 0s;
+} */
+
+/* .tab:first-child{
+	background: linear-gradient(90deg, #244091 0%, rgba(72,227,238,1) 100%);
+	border-radius: 30px;
+	padding: 14px 32px;
+	color: #fff;
+	cursor: pointer;
+	margin: 0px 10px;
+	font-weight: bold;
+}
+.tab:first-child:hover{
+	background:none;
+	border: 2px solid #48e3ee;;
+	padding: 12px 30px;
+	color: #48e3ee;
+	transition: all 0.3s ease 0s;
+} */
+
+.top_search{
+	display: inline-block;
+	width: 480px;
+	margin: 15px 0px;
+	text-align: left;
+	background-color: #eeeeee;
+	/* border: solid 2px #f0f0f0; */
+	padding: 14px 0px 14px 20px;
+	border-radius: 50px;
+	position: relative
+}
+.search_txt{
+	background-color: #eeeeee;
+	width: 400px;
+	margin-left: 32px;
+	border: none;
+	font-size: 16px;
+	color: #4a4a4a;
+}
+.top_search i{
+	position: absolute;
+	font-size: 20px;
+	left: 20px;
+	color: #a0a0a0;
+}

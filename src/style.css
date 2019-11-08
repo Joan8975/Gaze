@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,700&display=swap');
+* {
+	margin:0;
+	padding: 0;
+	/* outline: 1px solid pink; */
+	font-family: 'Roboto Mono', monospace;
+	box-sizing: border-box;
+	text-decoration: none;
+}
+*:hover{
+	box-sizing: border-box;
+  }
+.clearfix{
+	clear: both;
+}
+.container{
+	max-width: 1200px;
+	margin: 10px auto 110px auto ;
+	padding: 0px 20px;
+	/* background-color: pink; */
+}
+
+.container h3 {
+	font-size: 24px;
+	color: #243d93;
+	margin: 0px 20px;
+}
+
+/* button style */
+.common_button{
+	border-radius: 30px;
+	border: solid 2px #244091;
+	padding: 14px 30px;
+	color: #244091;
+	cursor: pointer;
+	margin-top: 30px;
+	margin-bottom: 100px;
+	display: inline-block;
+	font-size:16px;
+	font-weight: bold;
+}
+.left_button {
+	margin-right: auto;
+}
+.right_button {
+	margin-left: auto;
+	/* margin-right: 10px; */
+}
+.mid_button {
+	display: block;
+	margin: auto;
+	margin-top: 30px;
+}
+.common_button:hover {
+	color: #48e3ee;
+	border: solid 2px #48e3ee;
+	transition: all 0.3s ease 0s;
+}

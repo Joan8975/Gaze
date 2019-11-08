@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,700&display=swap');
+/* *{
+	outline: 1px solid pink;
+} */
+*:focus{
+	outline: none;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+	color:#cecece;
+	font-weight: normal;
+  }
+.post_container{
+	margin: auto;
+	width: 600px;
+}
+.input_title{
+	font-weight: normal;
+	font-size: 14px;
+	color: #a0a0a0;
+	height: 16px;
+	margin: 20px 0 6px 0;
+}
+.err_txt{
+	height: 16px;
+	font-weight: normal;
+	font-size: 14px;
+	color: #d6bb8b;
+}
+/* form{
+	display:flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+} */
+
+

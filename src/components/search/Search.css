@@ -1,0 +1,50 @@
+/* *{
+	outline: 1px solid pink;
+	
+} */
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Alegreya&display=swap');
+
+.search_bar{
+	margin: 80px auto 0px auto;;
+	position: relative;
+}
+.search_input{
+	font-family: 'Alegreya', serif;
+	height: 186px;
+	font-size: 100px;
+	color: #4a4a4a;
+	border: 2px solid transparent;
+}
+
+.search_bar::after{
+	position: absolute;
+	content: "";
+	display: block;
+	bottom: 24px;
+	left: 0px;
+	width: 1160px;
+	height: 4px;
+	background: linear-gradient(90deg, rgba(72,227,238,1) 0%,#244091 70%, rgba(72,227,238,1) 100%);
+}
+/* .search_input:focus{
+	border-bottom: 2px solid blue;
+} */
+.syn_group{
+	margin: 0px 0px 50px 0px;
+}
+.synonum{
+	display: inline-block;
+	border: solid 2px #f0f0f0;
+	color: #a0a0a0;
+	padding: 10px 24px;
+	font-size: 16px;
+	border-radius: 5px;
+	margin-right: 16px;
+}
+.synonum:hover{
+	color:#48e3ee;
+	border: solid 2px #48e3ee;
+	cursor: pointer;
+	transition: all 0.4s;
+}

@@ -1,26 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './style.css';
+import { HashRouter as Router, Route } from 'react-router-dom';
+import Nav from './containers/NavContainer';
+import About from './components/about/About';
+import Home from './containers/HomeContainer';
+import SinglePage from './containers/SinglePageContainer';
+import AddPost from './containers/AddPostContainer';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = () => (
+  <Router>
+    <div>
+      <div className="nav_bar">
+        <Nav />
+      </div>
+      <div>
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/posts/:postId" render={() => <SinglePage />} />
+        <Route path="/addPost" component={AddPost} />
+        <Route path="/edit/:postId" render={() => <SinglePage editing />} />
+        <Route path="/search/:query" render={() => <Home />} />
+      </div>
     </div>
-  );
-}
-
+  </Router>
+);
 export default App;
