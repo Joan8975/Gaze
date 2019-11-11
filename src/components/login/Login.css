@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+
+.login_form{
+	width: 600px;
+	margin: 100px auto;
+}
+.login_form *{
+	text-align: center;
+}
+.user_photo{
+	width: 200px;
+	height: 200px;
+	margin: 20px auto;
+}

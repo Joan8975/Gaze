@@ -5,6 +5,7 @@ import './Home.css';
 import Search from '../search/Search'
 import Loading from '../loading/Loading';
 import Masonry from 'react-masonry-css'
+import Fade from 'react-reveal/Fade';
 
 
 class Home extends Component {
@@ -16,14 +17,13 @@ class Home extends Component {
     };
     const { initImgs } = this.props;
     initImgs([])
-    
   }
 
   componentDidMount() {
+    const { getImgsList,query,getRandomImgs, getSynonymList} = this.props;
+    const { page } = this.state;
     window.addEventListener('scroll', this.handleScroll);
 
-    const { getImgsList, totalPage,query,getRandomImgs, getSynonymList} = this.props;
-    const { page } = this.state;
     if(this.props.match.params.query !== undefined) {
       query(this.props.match.params.query)
       getSynonymList(this.props.match.params.query)
@@ -38,9 +38,10 @@ class Home extends Component {
     window.removeEventListener('scroll', this.handleScroll);
   }
 
-  componentDidUpdate(prepProps) {
+  componentDidUpdate(prepProps,prevState) {
     const { isLoadingGetImgs, totalPage, isLoadingRandomImgs } = this.props;
     const { page } = this.state;
+
     if (prepProps.isLoadingGetImgs === true && isLoadingGetImgs === false) {
       this.setState({
         hasMore: !(page === totalPage || totalPage === 0),
@@ -84,6 +85,7 @@ class Home extends Component {
       1100: 2,
       700: 1
     };
+    
     // console.log(imgs);
     return (
       <div className="container">
@@ -95,19 +97,21 @@ class Home extends Component {
             breakpointCols={breakpointColumnsObj}
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
-          > 
+          >
             {(!isLoadingGetImgs || !isLoadingRandomImgs)
-              ? imgs.map((post, index) => {
+              ? imgs.map((item, index) => {
                 if (index < page * 9 && imgs[index]) {
-                  const singlePage = Math.floor(index / 9) + 1;
-                  const singleIndex = index - (9 * (singlePage - 1));
+                  // const singlePage = Math.floor(index / 9) + 1;
+                  // const singleIndex = index - (9 * (singlePage - 1));
                   return (
-                    <Fragment key={imgs.id}>
-                      <li role="presentation" onClick={() => history.push(`/posts/${post.id}#${singlePage}#${singleIndex}`)}>
-                        <div className="preview">
-                          <img src={imgs[index].urls.regular} alt="" />
-                        </div>
-                      </li>
+                    <Fragment>
+                      <Fade bottom duration={600} >
+                        <li key={imgs[index].id} role="presentation" onClick={() => history.push(`/images/${imgs[index].id}`)}>
+                          <div className="preview">
+                            <img src={imgs[index].urls.regular} alt="" />
+                          </div>
+                        </li>
+                      </Fade>
                     </Fragment>
                   );
                 }

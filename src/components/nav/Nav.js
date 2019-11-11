@@ -15,7 +15,6 @@ const MenuLink = ({ label, to, activeOnlyWhenExact, updateNav,className }) => (
   />
 );
 
-
 class Nav extends Component {
 
   handleChange = (e) => {
@@ -44,11 +43,11 @@ class Nav extends Component {
           onChange={this.handleChange}
           onKeyPress={this.handleKeyPress}
           />
-        <i class="fas fa-search"></i>
+        <i className="fas fa-search"></i>
       </div>}
       <nav>
         <MenuLink to="/addPost" label="Add" updateNav={updateNav} className="tab"/>
-        <MenuLink to="/about" label="About" updateNav={updateNav} className="tab"/>
+        <MenuLink to="/Login" label="Login" updateNav={updateNav} className="tab"/>
       </nav>
     </div>
     )

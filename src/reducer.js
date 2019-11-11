@@ -13,6 +13,8 @@ const state = {
   isLoadingSynonym: false,
   syn:[],
   topSearch: false,
+  singleImg: '',
+  isLoadingSingleImg: false,
 
 
 
@@ -55,6 +57,8 @@ function reducer(globalState = state, action) {
         ...globalState,
         body: action.value,
       };
+
+
 
     case actionTypes.QUERY:
     return {
@@ -108,6 +112,17 @@ function reducer(globalState = state, action) {
         ...globalState,
         topSearch: action.value,
     };
+    case actionTypes.GET_SINGLE_IMG_PENDING:
+      return {
+        ...globalState,
+        isLoadingSingleImg: true,
+    };
+    case actionTypes.GET_SINGLE_IMG_FULFILLED:
+      return {
+        ...globalState,
+        isLoadingSingleImg: false,
+        singleImg: action.payload,
+    };
 
 
 
@@ -132,20 +147,6 @@ function reducer(globalState = state, action) {
         isLoadingGetPosts: false,
         posts: action.payload.data,
         // totalPage: Math.ceil(action.payload.data.length / 9),
-      };
-    case actionTypes.GET_SINGLE_POST_PENDING:
-      return {
-        ...globalState,
-        isLoadingSinglePost: true,
-      };
-    case actionTypes.GET_SINGLE_POST_FULFILLED:
-      return {
-        ...globalState,
-        isLoadingSinglePost: false,
-        singlePost: action.payload.data,
-        author: action.payload.data.author,
-        title: action.payload.data.title,
-        body: action.payload.data.body,
       };
     case actionTypes.GET_UPDATE_POST_PENDING:
       return {

@@ -6,10 +6,6 @@ import './Search.css';
 
 
 class Search extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleChange = (e) => {
     const {query} = this.props;
     query(e.target.value)
@@ -24,6 +20,7 @@ class Search extends Component {
       history.push('/search/'+ queryTxt);
     }
   }
+
 
   handleSyn(item) {
     const {query} = this.props;

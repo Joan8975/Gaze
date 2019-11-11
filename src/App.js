@@ -2,7 +2,7 @@ import React from 'react';
 import './style.css';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import Nav from './containers/NavContainer';
-import About from './components/about/About';
+import Login from './components/login/Login';
 import Home from './containers/HomeContainer';
 import SinglePage from './containers/SinglePageContainer';
 import AddPost from './containers/AddPostContainer';
@@ -15,10 +15,9 @@ const App = () => (
       </div>
       <div>
         <Route exact path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/posts/:postId" render={() => <SinglePage />} />
+        <Route path="/Login" component={Login} />
+        <Route path="/images/:imgId" render={() => <SinglePage />} />
         <Route path="/addPost" component={AddPost} />
-        <Route path="/edit/:postId" render={() => <SinglePage editing />} />
         <Route path="/search/:query" render={() => <Home />} />
       </div>
     </div>
