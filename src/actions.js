@@ -58,6 +58,13 @@ export const getSingleImg = (imgId) => {
   };
 };
 
+export const checkLogin = (boolean) =>  {
+  return {
+    type: actionTypes.IS_LOGGEDIN,
+    value: boolean
+  }
+}
+
 
 
 

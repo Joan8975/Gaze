@@ -65,7 +65,7 @@ nav{
 }
 
 .tab:hover::after {
-	width: 40px;
+	width: 50px;
 	height: 4px;
 	background: #243d93;
 }
@@ -79,20 +79,18 @@ nav{
 .tab_active{
 	color:#243d93;
 }
-
-/* .tab_active::after{
+.tab_active::after{
 	content: "";
     display: block;
-    width: 40px;
+    width: 50px;
 	height: 4px;
 	position: absolute;
 	bottom: 0px;
 	left: 20px;
     background: #243d93;
-    transition: all 0.6s ease 0s;
-} */
+}
 
-/* .tab:first-child{
+.tab_signup {
 	background: linear-gradient(90deg, #244091 0%, rgba(72,227,238,1) 100%);
 	border-radius: 30px;
 	padding: 14px 32px;
@@ -100,14 +98,15 @@ nav{
 	cursor: pointer;
 	margin: 0px 10px;
 	font-weight: bold;
+	font-size: 16px;
 }
-.tab:first-child:hover{
+.tab_signup:hover{
 	background:none;
 	border: 2px solid #48e3ee;;
 	padding: 12px 30px;
 	color: #48e3ee;
 	transition: all 0.3s ease 0s;
-} */
+}
 
 .top_search{
 	display: inline-block;

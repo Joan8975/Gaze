@@ -15,6 +15,12 @@ const state = {
   topSearch: false,
   singleImg: '',
   isLoadingSingleImg: false,
+  isLoadingLogIn: false,
+  response: '',
+  authError: null,
+  isAuthenticated: false,
+
+
 
 
 
@@ -123,6 +129,13 @@ function reducer(globalState = state, action) {
         isLoadingSingleImg: false,
         singleImg: action.payload,
     };
+    case actionTypes.IS_LOGGEDIN:
+    return {
+      ...globalState,
+      isAuthenticated: action.value,
+  };
+
+
 
 
 

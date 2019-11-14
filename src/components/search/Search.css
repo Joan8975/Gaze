@@ -15,6 +15,7 @@
 	font-size: 100px;
 	color: #4a4a4a;
 	border: 2px solid transparent;
+	outline: none;
 }
 
 .search_bar::after{
@@ -48,3 +49,4 @@
 	cursor: pointer;
 	transition: all 0.4s;
 }
+

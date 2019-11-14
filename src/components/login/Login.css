@@ -1,14 +1,125 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
-
+/* @import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap'); */
+/* *{
+	outline: 1px solid pink;
+} */
 .login_form{
-	width: 600px;
+	width: 480px;
 	margin: 100px auto;
-}
-.login_form *{
-	text-align: center;
 }
 .user_photo{
 	width: 200px;
 	height: 200px;
 	margin: 20px auto;
+}
+form{
+	width: 480px;
+	margin: 20px auto;
+	display:flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.login_container input{
+	font-size: 16px;
+	font-weight: normal;
+	width: 480px;
+	height: 44px;
+	border: solid 2px #e0e0e0;
+	background-color: #ffffff;
+	padding: 0px 10px;
+	color: #4a4a4a;
+}
+.login_container input:focus {
+	border: solid 2px #48e3ee;
+	outline: none;
+}
+.input_title{
+	font-weight: normal;
+	font-size: 14px;
+	color: #a0a0a0;
+	height: 16px;
+	margin: 5px 0 6px 0;
+}
+
+.login_container .firebaseui-idp-button {
+	direction: ltr;
+	font-weight: 500;
+	height: auto;
+	line-height: normal;
+	max-width: 480px;
+	min-height: 44px;
+	text-align: center;
+	width: 100%;
+}
+
+.login_container .firebaseui-container{
+	max-width: 480px;
+}
+.login_container .firebaseui-text {
+	color: rgba(0, 0, 0, 0.87);
+	direction: ltr;
+	font-size: 16px;
+	line-height: 24px;
+	text-align: center;
+}
+.login_container .firebaseui-list-item {
+	direction: ltr;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+  }
+  
+
+
+.login_container .firebaseui-idp-button {
+	direction: ltr;
+	font-weight: 500;
+	height: auto;
+	line-height: normal;
+	max-width: 480px;
+	min-height: 44px;
+	padding: 8px 130px;
+	text-align: center;
+	width: 100%;
+	border-radius: 5px;
+	/* border: 1px solid pink; */
+}
+
+.login_container .firebaseui-card-content{
+	padding: 0;
+}
+
+.login_container .mdl-button--raised {
+	box-shadow: none;
+}
+
+.login_container .firebaseui-idp-google {
+	background-color: #ffffff;
+	border: 1px solid #e0e0e0;
+}
+.login_container .firebaseui-idp-google:hover,
+.login_container .mdl-button.firebaseui-idp-google:active,
+.login_container .mdl-button.firebaseui-idp-google:focus {
+	border: 1px solid #aaaaaa;
+	transition: all 0.3s ease;
+}
+
+.login_container .firebaseui-idp-github {
+	background-color: #333333;
+}
+
+.login_container .firebaseui-idp-github:hover,
+.login_container .mdl-button.firebaseui-idp-github:active,
+.login_container .mdl-button.firebaseui-idp-github:focus {
+	background-color: #1c1c1c;
+}
+
+.login_container .firebaseui-idp-facebook {
+	background-color: #3b5998;
+}
+
+.login_container .firebaseui-idp-facebook:hover,
+.login_container .mdl-button.firebaseui-idp-facebook:active,
+.login_container .mdl-button.firebaseui-idp-facebook:focus {
+	background-color: #2e487c;
 }

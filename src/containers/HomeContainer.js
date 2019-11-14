@@ -37,7 +37,8 @@ const mapStateToProps = (state) => {
     queryTxt: state.posts.queryTxt,
     isLoadingSynonym: state.posts.isLoadingSynonym,
     syn: state.posts.syn,
-    topSearch: state.posts.topSearch
+    topSearch: state.posts.topSearch,
+    isAuthenticated: state.posts.isAuthenticated
   };
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeContainer));

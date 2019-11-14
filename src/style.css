@@ -10,6 +10,9 @@
 *:hover{
 	box-sizing: border-box;
   }
+* :focus{
+	outline: none;
+}
 .clearfix{
 	clear: both;
 }

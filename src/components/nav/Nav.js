@@ -4,13 +4,14 @@
 import React, { Component }  from 'react';
 import './Nav.css';
 import { Route, Link } from 'react-router-dom';
+import firebase from 'firebase';
 
 const MenuLink = ({ label, to, activeOnlyWhenExact, updateNav,className }) => (
   <Route
     path={to}
     exact={activeOnlyWhenExact}
     children={({ match }) => (
-      <Link className={`${className} ${match ? 'tab_active' : ''}`} to={to} onClick={() => updateNav(to)}>{label}</Link>
+      <Link className={`${className} ${match ? `${className}_active` : ''}`} to={to} onClick={() => updateNav(to)}>{label}</Link>
     )}
   />
 );
@@ -31,9 +32,28 @@ class Nav extends Component {
       history.push('/search/'+ queryTxt);
     }
   }
+  handleLogout = () => {
+    this.props.isLoggedIn(false);
+    firebase.auth().signOut()
+  }
 
   render() {
-    const {updateNav,queryTxt,topSearch} = this.props
+    const {updateNav,queryTxt,topSearch, isAuthenticated } = this.props
+
+    const userLinks = (
+      <nav>
+        <MenuLink to="/collection" label="Collection" updateNav={updateNav} className="tab_collection"/>
+        <button className="tab" onClick={this.handleLogout}>Logout</button>
+      </nav>
+    )
+    const guestLinks = (
+      <nav>
+        <MenuLink to="/login" label="Login" updateNav={updateNav} className="tab"/>
+        <MenuLink to="/Signup" label="Sign up!" updateNav={updateNav} className="tab_signup"/>
+      </nav>
+    )
+
+
     return(
       <div>
       <MenuLink activeOnlyWhenExact={true} to="/" label="Gaze" updateNav={updateNav} className="tab_home"/>
@@ -45,10 +65,7 @@ class Nav extends Component {
           />
         <i className="fas fa-search"></i>
       </div>}
-      <nav>
-        <MenuLink to="/addPost" label="Add" updateNav={updateNav} className="tab"/>
-        <MenuLink to="/Login" label="Login" updateNav={updateNav} className="tab"/>
-      </nav>
+      { isAuthenticated ? userLinks : guestLinks}
     </div>
     )
   }

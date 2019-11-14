@@ -6,6 +6,7 @@ import Search from '../search/Search'
 import Loading from '../loading/Loading';
 import Masonry from 'react-masonry-css'
 import Fade from 'react-reveal/Fade';
+import firebase from 'firebase';
 
 
 class Home extends Component {
@@ -14,6 +15,7 @@ class Home extends Component {
     this.state = {
       hasMore: false, // 是否存在下一頁
       page: 1, // 目前的頁碼
+      // isLoggedIn: false 
     };
     const { initImgs } = this.props;
     initImgs([])
@@ -79,19 +81,18 @@ class Home extends Component {
 
   render() {
     const { page, hasMore } = this.state;
-    const { history, imgs, isLoadingGetImgs,query,queryTxt,getImgsList,initImgs, isLoadingRandomImgs,syn,isLoadingSynonym, getSynonymList} = this.props;
+    const { history, imgs, isLoadingGetImgs,query,queryTxt,getImgsList,initImgs, isLoadingRandomImgs,syn,isLoadingSynonym, getSynonymList, isAuthenticated} = this.props;
     const breakpointColumnsObj = {
       default: 3,
       1100: 2,
       700: 1
     };
-    
-    // console.log(imgs);
     return (
       <div className="container">
         <Search query={query} queryTxt={queryTxt} getImgsList={getImgsList} page={page} initImgs={initImgs} history={history} syn={syn} isLoadingSynonym={isLoadingSynonym} getSynonymList={getSynonymList}
         onScroll={this.handleScroll}
         />
+        <p>hi! {isAuthenticated && 'hello'}</p>
         <ul>
           <Masonry
             breakpointCols={breakpointColumnsObj}

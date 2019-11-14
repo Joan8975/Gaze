@@ -22,7 +22,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.initImgs(array));
     },
     showTopSearch: (boolean) => {
-      dispatch(actions.showTopSearch(boolean))
+      dispatch(actions.showTopSearch(boolean));
+    },
+    isLoggedIn: (boolean) => {
+      dispatch(actions.checkLogin(boolean))
     }
   };
 };
@@ -30,7 +33,8 @@ const mapStateToProps = (state) => {
   return {
     navText: state.nav.navText,
     queryTxt: state.posts.queryTxt,
-    topSearch: state.posts.topSearch
+    topSearch: state.posts.topSearch,
+    isAuthenticated: state.posts.isAuthenticated,
   };
 };
 
