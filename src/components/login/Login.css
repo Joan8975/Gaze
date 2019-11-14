@@ -1,29 +1,54 @@
-/* @import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap'); */
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
 /* *{
 	outline: 1px solid pink;
 } */
-.login_form{
+.login_container{
 	width: 480px;
-	margin: 100px auto;
+	margin: 120px auto 0px auto;
 }
-.user_photo{
-	width: 200px;
-	height: 200px;
-	margin: 20px auto;
+.login_title{
+	font-size: 32px;
+	margin-bottom: 40px;
+	color: #a0a0a0;
+	text-align: center;
+}
+.login_container p {
+	font-size: 16px;
+	color: #a0a0a0;
+	display: block;
+	text-align: center;
 }
 form{
 	width: 480px;
-	margin: 20px auto;
+	margin: 10px auto;
 	display:flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
+
+}
+.input_title{
+	font-weight: normal;
+	font-size: 14px;
+	color: #a0a0a0;
+	width: 50px;
+	height:20px;
+	margin: 16px 0 3px 0;
+	display: inline-block;
+}
+.input_hide{
+	visibility: hidden;
+	width: 50px;
+	height:20px;
+	margin: 16px 0 3px 0;
+	display: inline-block;
 }
 
-.login_container input{
+
+.input_field{
 	font-size: 16px;
 	font-weight: normal;
 	width: 480px;
-	height: 44px;
+	height: 48px;
 	border: solid 2px #e0e0e0;
 	background-color: #ffffff;
 	padding: 0px 10px;
@@ -33,23 +58,19 @@ form{
 	border: solid 2px #48e3ee;
 	outline: none;
 }
-.input_title{
-	font-weight: normal;
-	font-size: 14px;
-	color: #a0a0a0;
-	height: 16px;
-	margin: 5px 0 6px 0;
-}
 
+/* firebaseui */
 .login_container .firebaseui-idp-button {
 	direction: ltr;
 	font-weight: 500;
 	height: auto;
 	line-height: normal;
-	max-width: 480px;
-	min-height: 44px;
-	text-align: center;
+	min-height: 48px;
 	width: 100%;
+}
+.login_container .firebaseui-idp-list {
+	width: 480px;
+	margin: 0px;
 }
 
 .login_container .firebaseui-container{
@@ -62,14 +83,6 @@ form{
 	line-height: 24px;
 	text-align: center;
 }
-.login_container .firebaseui-list-item {
-	direction: ltr;
-	margin: 0;
-	padding: 0;
-	text-align: center;
-  }
-  
-
 
 .login_container .firebaseui-idp-button {
 	direction: ltr;
@@ -77,12 +90,11 @@ form{
 	height: auto;
 	line-height: normal;
 	max-width: 480px;
-	min-height: 44px;
+	min-height: 48px;
 	padding: 8px 130px;
 	text-align: center;
 	width: 100%;
-	border-radius: 5px;
-	/* border: 1px solid pink; */
+	border-radius: 2px;
 }
 
 .login_container .firebaseui-card-content{
@@ -97,9 +109,7 @@ form{
 	background-color: #ffffff;
 	border: 1px solid #e0e0e0;
 }
-.login_container .firebaseui-idp-google:hover,
-.login_container .mdl-button.firebaseui-idp-google:active,
-.login_container .mdl-button.firebaseui-idp-google:focus {
+.login_container .firebaseui-idp-google:hover {
 	border: 1px solid #aaaaaa;
 	transition: all 0.3s ease;
 }
@@ -108,9 +118,7 @@ form{
 	background-color: #333333;
 }
 
-.login_container .firebaseui-idp-github:hover,
-.login_container .mdl-button.firebaseui-idp-github:active,
-.login_container .mdl-button.firebaseui-idp-github:focus {
+.login_container .firebaseui-idp-github:hover {
 	background-color: #1c1c1c;
 }
 
@@ -118,8 +126,15 @@ form{
 	background-color: #3b5998;
 }
 
-.login_container .firebaseui-idp-facebook:hover,
-.login_container .mdl-button.firebaseui-idp-facebook:active,
-.login_container .mdl-button.firebaseui-idp-facebook:focus {
+.login_container .firebaseui-idp-facebook:hover{
 	background-color: #2e487c;
+}
+.errorMsg {
+	height: 16px;
+	font-weight: normal;
+	font-size: 14px;
+	color: #d6bb8b;
+}
+.input_empt{
+	border: solid 2px #d6bb8b;
 }

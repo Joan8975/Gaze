@@ -2,7 +2,7 @@ import React,{ Component }  from 'react';
 import './style.css';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import Nav from './containers/NavContainer';
-import Login from './components/login/Login';
+import Login from './containers/LoginContainer';
 import Home from './containers/HomeContainer';
 import SinglePage from './containers/SinglePageContainer';
 import Signup from './components/signup/Signup';
