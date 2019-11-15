@@ -33,20 +33,14 @@ nav{
 	color: #243d93;
 	border: 4px solid #243d93;
 }
-
-.tab{
-	font-size:16px;
-}
 .tab{
 	margin: 0px 10px;
-	/* font-family: 'Roboto Mono', monospace; */
+	border: none;
 	background: none;
-	/* border: 0px; */
-	/* font-size: 16px; */
+	font-size: 16px;
 	display: inline-block;
 	line-height: 80px;
 	padding: 0px 20px;
-	/* text-decoration: none; */
 	color: #a0a0a0;
 	cursor: pointer;
 	position: relative;

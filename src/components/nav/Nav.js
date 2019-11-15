@@ -49,7 +49,7 @@ class Nav extends Component {
     const guestLinks = (
       <nav>
         <MenuLink to="/login" label="Login" updateNav={updateNav} className="tab"/>
-        <MenuLink to="/Signup" label="Sign up!" updateNav={updateNav} className="tab_signup"/>
+        <MenuLink to="/Signup" label="Sign up now!" updateNav={updateNav} className="tab_signup"/>
       </nav>
     )
 

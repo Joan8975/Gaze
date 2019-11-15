@@ -3,8 +3,7 @@ import React, { Component,Fragment } from 'react'
 import './Login.css';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import { withRouter } from 'react-router-dom';
-import 'react-inputs-validation/lib/react-inputs-validation.min.css';
+import { withRouter, Link } from 'react-router-dom';
 import { Textbox } from "react-inputs-validation";
 
 
@@ -24,7 +23,7 @@ class Login extends Component {
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-      firebase.auth.GithubAuthProvider.PROVIDER_ID
+      // firebase.auth.GithubAuthProvider.PROVIDER_ID
     ],
     callbacks: {
       signInSuccessWithAuthResult: () => false
@@ -49,21 +48,22 @@ class Login extends Component {
   }
   
   handleSubmit = (e) => {
-    
-    const {    hasEmailError, hasPasswordError } = this.state;
+    e.preventDefault();
+    const { hasEmailError, hasPasswordError, email, password } = this.state;
     if ( !hasEmailError && !hasPasswordError ) {
-      var data = {email:'',password: ''};
         firebase.auth().signInWithEmailAndPassword(
-          data.email,
-          data.password
+          email,
+          password
         ).catch(error => {
-          // console.log('err='+error.code,error.message);
+          console.log('err='+error.code,error.message);
           if (error !== '') {
             this.setState({
               hasEmailError: true,
               hasPasswordError: true,
               emailErrorMsg: "Your email or password is not correct.",
               passwordErrorMsg: "Your email or password is not correct.",
+              email: "",
+              password: "",
             })
           }
         })
@@ -94,7 +94,7 @@ class Login extends Component {
 
 
   render() {
-    const { email,emailErrorMsg, password, passwordErrorMsg } = this.state;
+    const { email,emailErrorMsg, password, passwordErrorMsg, hasEmailError, hasPasswordError } = this.state;
     
     return (
       <div className="login_container">
@@ -103,7 +103,7 @@ class Login extends Component {
         <p>or</p>
         <form>
           <div class="text_field">
-          <div className={`${email === '' ? 'input_hide': 'input_title'}`}>Email</div>
+            <div className={`${email === '' ? 'input_hide': 'input_title'}`}>Email</div>
             <Textbox
               attributesInput={{
                 name: "email",
@@ -117,7 +117,7 @@ class Login extends Component {
                 required: true,
               }}
             />
-            {emailErrorMsg === "" ? "" : (<div className="errorMsg">{emailErrorMsg}</div>)}
+            <div className={`${emailErrorMsg === '' ? 'input_hide': 'errorMsg'}`}><i class="fas fa-exclamation-circle"></i>{emailErrorMsg}</div>
           </div>
           <div class="text_field">
             <div className={`${password === '' ? 'input_hide': 'input_title'}`}>Password</div>
@@ -126,7 +126,7 @@ class Login extends Component {
                 name: "password",
                 className: `input_field  ${passwordErrorMsg === '' ? '': 'input_empt'}`,
                 placeholder: "Password",
-                type: "text"
+                type: "password"
               }}
               value={password}
               onChange={this.handlePasswordChange}
@@ -134,10 +134,11 @@ class Login extends Component {
                 required: true,
               }}
             />
-            {passwordErrorMsg === "" ? "" : (<div className="errorMsg">{passwordErrorMsg}</div>)}
+            <div className={`${passwordErrorMsg === '' ? 'input_hide': 'errorMsg'}`}><i class="fas fa-exclamation-circle"></i>{passwordErrorMsg}</div>
           </div>
-          <button type="submit" className="common_button mid_button" onClick={this.handleSubmit} >Submit</button>
+          <button type="submit" className={`mid_button ${!hasEmailError &&  !hasPasswordError ? 'common_button': 'disable_button'}`} onClick={this.handleSubmit} >Submit</button>
         </form>
+        <p>No account yet? <Link className="note_button" to="/signup">Sign up</Link></p>
       </div>
     )
   }

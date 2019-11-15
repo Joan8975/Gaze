@@ -26,35 +26,46 @@ form{
 	justify-content: space-between;
 
 }
+.text_field{
+	margin: auto;
+}
+.text_field i {
+	margin: 0px 5px;
+}
+
 .input_title{
 	font-weight: normal;
 	font-size: 14px;
 	color: #a0a0a0;
-	width: 50px;
+	width: 480px;
 	height:20px;
-	margin: 16px 0 3px 0;
-	display: inline-block;
 }
 .input_hide{
 	visibility: hidden;
-	width: 50px;
 	height:20px;
-	margin: 16px 0 3px 0;
-	display: inline-block;
 }
-
+.errorMsg {
+	font-weight: normal;
+	font-size: 14px;
+	color: #d6bb8b;
+	height:20px;
+	text-align: right; 
+	margin-left: auto;
+}
 
 .input_field{
 	font-size: 16px;
-	font-weight: normal;
 	width: 480px;
 	height: 48px;
 	border: solid 2px #e0e0e0;
-	background-color: #ffffff;
 	padding: 0px 10px;
 	color: #4a4a4a;
+	border-radius: 2px;
 }
-.login_container input:focus {
+.input_empt{
+	border: solid 2px #d6bb8b;
+}
+.input_field:focus {
 	border: solid 2px #48e3ee;
 	outline: none;
 }
@@ -128,13 +139,4 @@ form{
 
 .login_container .firebaseui-idp-facebook:hover{
 	background-color: #2e487c;
-}
-.errorMsg {
-	height: 16px;
-	font-weight: normal;
-	font-size: 14px;
-	color: #d6bb8b;
-}
-.input_empt{
-	border: solid 2px #d6bb8b;
 }

@@ -64,10 +64,18 @@
 	background-color: #e0e0e0;
 	padding: 14px 30px;
 	color: #fff;
-	margin-top: 30px;
-	margin-bottom: 100px;
 	display: inline-block;
 	font-size:16px;
 	font-weight: bold;
 	border: none;
+}
+.note_button{
+	/* text-decoration: underline; */
+	color: #244091;
+	/* color: #48e3ee; */
+	cursor: pointer;
+}
+.note_button:hover{
+	color: #48e3ee;
+	transition: all 0.3s ease 0s;
 }
