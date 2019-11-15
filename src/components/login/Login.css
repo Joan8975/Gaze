@@ -28,10 +28,11 @@ form{
 }
 .text_field{
 	margin: auto;
+	height: 90px;
 }
-.text_field i {
+/* .text_field i {
 	margin: 0px 5px;
-}
+} */
 
 .input_title{
 	font-weight: normal;
@@ -42,17 +43,27 @@ form{
 }
 .input_hide{
 	visibility: hidden;
-	height:20px;
 }
-.errorMsg {
+.react-inputs-validation__msg_identifier {
 	font-weight: normal;
 	font-size: 14px;
-	color: #d6bb8b;
-	height:20px;
-	text-align: right; 
-	margin-left: auto;
+	color: #dba23f;
+	text-align: right;
 }
-
+.errorMsg {
+	background-color: #f9f3e8;
+	font-weight: normal;
+	font-size: 14px;
+	border-radius: 2px;
+	color: #dba23f;
+	text-align: center;
+	padding: 8px;
+	margin: 20px auto 10px auto;
+	width: 480px;
+}
+i{
+	margin: 0px 5px;
+}
 .input_field{
 	font-size: 16px;
 	width: 480px;
@@ -61,6 +72,9 @@ form{
 	padding: 0px 10px;
 	color: #4a4a4a;
 	border-radius: 2px;
+}
+.input_field::placeholder{
+	color: #a0a0a0;
 }
 .input_empt{
 	border: solid 2px #d6bb8b;

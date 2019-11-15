@@ -92,7 +92,7 @@ class Home extends Component {
         <Search query={query} queryTxt={queryTxt} getImgsList={getImgsList} page={page} initImgs={initImgs} history={history} syn={syn} isLoadingSynonym={isLoadingSynonym} getSynonymList={getSynonymList}
         onScroll={this.handleScroll}
         />
-        <p>hi! {isAuthenticated && 'hello'}</p>
+        <p>hi! {isAuthenticated && firebase.auth().currentUser.displayName}</p>
         <ul>
           <Masonry
             breakpointCols={breakpointColumnsObj}
