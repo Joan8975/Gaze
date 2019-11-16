@@ -37,7 +37,6 @@ class Signup extends Component {
     e.preventDefault();
     const { hasEmailError, hasPasswordError, email, password, username } = this.state;
     if ( !hasEmailError && !hasPasswordError && email !== '' && password !== '' && username !== '') {
-
       firebase.auth().createUserWithEmailAndPassword(
         email,
         password
@@ -62,7 +61,6 @@ class Signup extends Component {
           })
         }
       });
-
     }
   }
 
@@ -85,6 +83,11 @@ class Signup extends Component {
                   this.setState({ email });
                 }} 
                 onBlur={e => {}}
+                validationCallback={res =>
+                  this.setState({
+                    hasEmailError: res,
+                  })
+                }
                 value={email}
                 validationOption={{
                   name: "Email", 
@@ -106,53 +109,64 @@ class Signup extends Component {
           <div className="text_field">
             <div className={`${username === '' ? 'input_hide': 'input_title'}`}>Username</div>
             <Textbox
-                attributesInput={{
-                  className: `input_field  ${!hasUsernameError ? '': 'input_empt'}`,
-                  placeholder: "Place your username here",
-                  type: "text"
-                }}
-                onChange={(username, e) => {
-                  this.setState({ username });
-                }} 
-                onBlur={e => {}}
-                value={username}
-                validationOption={{
-                  name: "Username", 
-                  check: true,
-                  required: true,
-                }}
+              attributesInput={{
+                className: `input_field  ${!hasUsernameError ? '': 'input_empt'}`,
+                placeholder: "Place your username here",
+                type: "text"
+              }}
+              onChange={(username, e) => {
+                this.setState({ username });
+              }} 
+              onBlur={e => {}}
+              validationCallback={res =>
+                this.setState({
+                  hasUsernameError: res,
+                })
+              }
+              value={username}
+              validationOption={{
+                name: "Username", 
+                check: true,
+                required: true,
+              }}
             />
           </div>
           <div className="text_field">
             <div className={`${password === '' ? 'input_hide': 'input_title'}`}>Password</div>
             <Textbox
-                attributesInput={{
-                  className: `input_field  ${!hasPasswordError ? '': 'input_empt'}`,
-                  placeholder: "Place your password here",
-                  type: "password"
-                }}
-                onChange={(password, e) => {
-                  this.setState({ password });
-                }} 
-                onBlur={e => {}}
-                value={password}
-                validationOption={{
-                  name: "Password", 
-                  check: true,
-                  required: true,
-                  customFunc: password => {
-                    if (String(password).length > 5) {
-                      this.setState({ hasPasswordError: false});
-                      return true;
-                    } else {
-                      this.setState({ hasPasswordError: true,});
-                      return "The password must be 6 characters long or more.";
-                    }
+              attributesInput={{
+                className: `input_field  ${!hasPasswordError ? '': 'input_empt'}`,
+                placeholder: "Place your password here (min. 6 char)",
+                type: "password"
+              }}
+              onChange={(password, e) => {
+                this.setState({ password });
+              }} 
+              onBlur={e => {}}
+              validationCallback={res =>
+                this.setState({
+                  hasPasswordError: res,
+                })
+              }
+              value={password}
+              validationOption={{
+                name: "Password", 
+                check: true,
+                required: true,
+                customFunc: (password) => {
+                  const psw = /^\w{6,}$/;
+                  if (String(password).match(psw)) {
+                    this.setState({ hasPasswordError: false});
+                    return true;
+                  } else {
+                    this.setState({ hasPasswordError: true,});
+                    return "Password cannot less than 6";
                   }
-                }}
+                }
+              }}
             />
           </div>
-          <button type="submit" className={`mid_button ${email === '' || password === '' || hasEmailError || hasPasswordError  ? 'disable_button': 'common_button'}`} onClick={this.handleSubmit} >Submit</button>
+          <button type="submit" className={`mid_button ${email === '' || password === '' || hasEmailError || hasPasswordError ? 'disable_button': 'common_button'}`} onClick={this.handleSubmit} >Submit</button>
         </form>
       </div>
     )

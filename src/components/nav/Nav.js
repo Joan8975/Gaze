@@ -5,6 +5,7 @@ import React, { Component }  from 'react';
 import './Nav.css';
 import { Route, Link } from 'react-router-dom';
 import firebase from 'firebase';
+import Notifications, {notify} from 'react-notify-toast';
 
 const MenuLink = ({ label, to, activeOnlyWhenExact, updateNav,className }) => (
   <Route
@@ -36,13 +37,21 @@ class Nav extends Component {
     this.props.isLoggedIn(false);
     firebase.auth().signOut()
   }
+  componentDidUpdate(prepProps,prevState) {
+    const {isAuthenticated } = this.props;
+
+    if (prepProps.isAuthenticated === false && isAuthenticated === true) {
+      let myColor = { background: '#0E1717', text: "#FFFFFF" };
+      notify.show("this is sample text", "custom", 5000, myColor);
+    }
+  }
 
   render() {
     const {updateNav,queryTxt,topSearch, isAuthenticated } = this.props
 
     const userLinks = (
       <nav>
-        <MenuLink to="/collection" label="Collection" updateNav={updateNav} className="tab_collection"/>
+        <MenuLink to="/collection" label="Collection" updateNav={updateNav} className="tab"/>
         <button className="tab" onClick={this.handleLogout}>Logout</button>
       </nav>
     )
@@ -56,6 +65,7 @@ class Nav extends Component {
 
     return(
       <div>
+      <Notifications />
       <MenuLink activeOnlyWhenExact={true} to="/" label="Gaze" updateNav={updateNav} className="tab_home"/>
       {topSearch && <div hidden className="top_search">    
         <input type="text" className="search_txt" name="query"          

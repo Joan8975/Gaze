@@ -22,6 +22,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    
     const { getImgsList,query,getRandomImgs, getSynonymList} = this.props;
     const { page } = this.state;
     window.addEventListener('scroll', this.handleScroll);
@@ -41,7 +42,7 @@ class Home extends Component {
   }
 
   componentDidUpdate(prepProps,prevState) {
-    const { isLoadingGetImgs, totalPage, isLoadingRandomImgs } = this.props;
+    const { isLoadingGetImgs, totalPage, isLoadingRandomImgs, isAuthenticated } = this.props;
     const { page } = this.state;
 
     if (prepProps.isLoadingGetImgs === true && isLoadingGetImgs === false) {
@@ -88,41 +89,45 @@ class Home extends Component {
       700: 1
     };
     return (
-      <div className="container">
-        <Search query={query} queryTxt={queryTxt} getImgsList={getImgsList} page={page} initImgs={initImgs} history={history} syn={syn} isLoadingSynonym={isLoadingSynonym} getSynonymList={getSynonymList}
-        onScroll={this.handleScroll}
-        />
-        <p>hi! {isAuthenticated && firebase.auth().currentUser.displayName}</p>
-        <ul>
-          <Masonry
-            breakpointCols={breakpointColumnsObj}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column"
-          >
-            {(!isLoadingGetImgs || !isLoadingRandomImgs)
-              ? imgs.map((item, index) => {
-                if (index < page * 9 && imgs[index]) {
-                  // const singlePage = Math.floor(index / 9) + 1;
-                  // const singleIndex = index - (9 * (singlePage - 1));
-                  return (
-                    <Fragment>
-                      <Fade bottom duration={600} >
-                        <li key={imgs[index].id} role="presentation" onClick={() => history.push(`/images/${imgs[index].id}`)}>
-                          <div className="preview">
-                            <img src={imgs[index].urls.regular} alt="" />
-                          </div>
-                        </li>
-                      </Fade>
-                    </Fragment>
-                  );
-                }
-              })
-              : <Loading />}
-          </Masonry>
-          {hasMore ? <button type="submit" className="common_button mid_button" onClick={this.handleLoad}>Load More</button> : <div className="clearfix" />}
-          <div className="clearfix" />
-        </ul>
-      </div>
+      <Fragment>
+        {isAuthenticated ?
+        <div className="container">
+          <Search query={query} queryTxt={queryTxt} getImgsList={getImgsList} page={page} initImgs={initImgs} history={history} syn={syn} isLoadingSynonym={isLoadingSynonym} getSynonymList={getSynonymList}
+          onScroll={this.handleScroll}
+          />
+          <p>hi! {isAuthenticated && firebase.auth().currentUser.displayName}</p>
+          <ul>
+            <Masonry
+              breakpointCols={breakpointColumnsObj}
+              className="my-masonry-grid"
+              columnClassName="my-masonry-grid_column"
+            >
+              {(!isLoadingGetImgs || !isLoadingRandomImgs)
+                ? imgs.map((item, index) => {
+                  if (index < page * 9 && imgs[index]) {
+                    // const singlePage = Math.floor(index / 9) + 1;
+                    // const singleIndex = index - (9 * (singlePage - 1));
+                    return (
+                      <Fragment>
+                        <Fade bottom duration={600} >
+                          <li key={imgs[index].id} role="presentation" onClick={() => history.push(`/images/${imgs[index].id}`)}>
+                            <div className="preview">
+                              <img src={imgs[index].urls.regular} alt="" />
+                            </div>
+                          </li>
+                        </Fade>
+                      </Fragment>
+                    );
+                  }
+                })
+                : <Loading />}
+            </Masonry>
+            {hasMore ? <button type="submit" className="common_button mid_button" onClick={this.handleLoad}>Load More</button> : <div className="clearfix" />}
+            <div className="clearfix" />
+          </ul>
+        </div>
+        : <Loading />}
+      </Fragment>
     );
   }
 }

@@ -7,6 +7,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Textbox } from "react-inputs-validation";
 
 
+
 class Login extends Component {
   state = {
     email: "",
@@ -80,57 +81,68 @@ class Login extends Component {
           <div className="text_field">
             <div className={`${email === '' ? 'input_hide': 'input_title'}`}>Email</div>
             <Textbox
-                attributesInput={{
-                  className: `input_field  ${!hasEmailError ? '': 'input_empt'}`,
-                  placeholder: "Place your email here",
-                  type: "text"
-                }}
-                onChange={(email, e) => {
-                  this.setState({ email });
-                }} 
-                onBlur={e => {}}
-                value={email}
-                validationOption={{
-                  name: "Email", 
-                  check: true,
-                  required: true,
-                  customFunc: (email) => {
-                    const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    if (reg.test(String(email).toLowerCase())) {
-                      this.setState({ hasEmailError: false});
-                      return true;
-                    } else {
-                      this.setState({ hasEmailError: true,});
-                      return "Ivalid email address";
-                    }
+              attributesInput={{
+                className: `input_field  ${!hasEmailError ? '': 'input_empt'}`,
+                placeholder: "Place your email here",
+                type: "text"
+              }}
+              onChange={(email, e) => {
+                this.setState({ email });
+              }} 
+              onBlur={e => {}}
+              validationCallback={res =>
+                this.setState({
+                  hasEmailError: res,
+                })
+              }
+              value={email}
+              validationOption={{
+                name: "Email", 
+                check: true,
+                required: true,
+                customFunc: (email) => {
+                  const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                  if (reg.test(String(email).toLowerCase())) {
+                    this.setState({ hasEmailError: false});
+                    return true;
+                  } else {
+                    this.setState({ hasEmailError: true,});
+                    return "Ivalid email address";
                   }
-                }}
-              />
+                }
+              }}
+            />
           </div>
           <div className="text_field">
             <div className={`${password === '' ? 'input_hide': 'input_title'}`}>Password</div>
             <Textbox
                 attributesInput={{
                   className: `input_field  ${!hasPasswordError ? '': 'input_empt'}`,
-                  placeholder: "Place your password here",
+                  placeholder: "Place your password here (min. 6 char)",
                   type: "password"
                 }}
                 onChange={(password, e) => {
                   this.setState({ password });
-                }} 
+                }}
                 onBlur={e => {}}
+                validationCallback={res =>
+                  this.setState({
+                    hasPasswordError: res,
+                  })
+                }
                 value={password}
                 validationOption={{
                   name: "Password", 
                   check: true,
                   required: true,
                   customFunc: (password) => {
-                    if (String(password).length > 5) {
+                    const pwd = /^\w{6,}$/;
+                    if (String(password).match(pwd)) {
                       this.setState({ hasPasswordError: false});
                       return true;
                     } else {
                       this.setState({ hasPasswordError: true,});
-                      return "The password must be 6 characters long or more.";
+                      return "Password cannot less than 6";
                     }
                   }
                 }}

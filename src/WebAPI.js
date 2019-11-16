@@ -1,5 +1,4 @@
 import axios from 'axios';
-import firebase from 'firebase';
 
 export const getImgs = (page,query) => fetch(`https://api.unsplash.com/search/photos?client_id=773741e75ba8c52b7d3d825cd4c33cf637a1f77a7fe0f64109e4f5bdd35e22ad&query=${query}&per_page=9&page=${page}`)
 .then(res => res.json())  
