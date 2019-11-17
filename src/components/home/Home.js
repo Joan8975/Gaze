@@ -6,6 +6,7 @@ import Search from '../search/Search'
 import Loading from '../loading/Loading';
 import Masonry from 'react-masonry-css'
 import Fade from 'react-reveal/Fade';
+import Selector from '../selector/Selector'
 import firebase from 'firebase';
 
 
@@ -15,7 +16,9 @@ class Home extends Component {
     this.state = {
       hasMore: false, // 是否存在下一頁
       page: 1, // 目前的頁碼
-      // isLoggedIn: false 
+      showAddBtn: '',
+      showSelector: false,
+      currentImgId:''
     };
     const { initImgs } = this.props;
     initImgs([])
@@ -79,10 +82,32 @@ class Home extends Component {
       showTopSearch(false);
     }
   }
+  handleHoverOver(id){
+    this.setState({
+      showAddBtn: id,
+    })
+  }
+  handleHoverOut = () => {
+    this.setState({
+      showAddBtn: ''
+    })
+  }
+  handleSelector(id){
+    this.setState({
+      currentImgId: id,
+      showSelector: true,
+    })
+    // alert('ok')
+  }
+  handleClose = () => {
+    this.setState({
+      showSelector:false,
+    })
+  }
 
   render() {
-    const { page, hasMore } = this.state;
-    const { history, imgs, isLoadingGetImgs,query,queryTxt,getImgsList,initImgs, isLoadingRandomImgs,syn,isLoadingSynonym, getSynonymList, isAuthenticated} = this.props;
+    const { page, hasMore,currentImgId,showSelector,showAddBtn } = this.state;
+    const { history, imgs, isLoadingGetImgs,query,queryTxt,getImgsList,initImgs, isLoadingRandomImgs,syn,isLoadingSynonym, getSynonymList, isAuthenticated,getSingleImg,singleImg} = this.props;
     const breakpointColumnsObj = {
       default: 3,
       1100: 2,
@@ -90,12 +115,14 @@ class Home extends Component {
     };
     return (
       <Fragment>
-        {isAuthenticated ?
         <div className="container">
+          {showSelector && <Selector handleClose={this.handleClose} currentImgId={currentImgId}
+          getSingleImg={getSingleImg}  singleImg={singleImg}/>}
+
           <Search query={query} queryTxt={queryTxt} getImgsList={getImgsList} page={page} initImgs={initImgs} history={history} syn={syn} isLoadingSynonym={isLoadingSynonym} getSynonymList={getSynonymList}
           onScroll={this.handleScroll}
           />
-          <p>hi! {isAuthenticated && firebase.auth().currentUser.displayName}</p>
+          {/* <p>hi! {isAuthenticated && firebase.auth().currentUser.displayName}</p> */}
           <ul>
             <Masonry
               breakpointCols={breakpointColumnsObj}
@@ -105,18 +132,20 @@ class Home extends Component {
               {(!isLoadingGetImgs || !isLoadingRandomImgs)
                 ? imgs.map((item, index) => {
                   if (index < page * 9 && imgs[index]) {
-                    // const singlePage = Math.floor(index / 9) + 1;
-                    // const singleIndex = index - (9 * (singlePage - 1));
                     return (
-                      <Fragment>
+                      <div className="outter"                           
+                      onMouseOver={() => this.handleHoverOver(imgs[index].id)}
+                      onMouseOut={this.handleHoverOut}>
+                        <button className={showAddBtn === imgs[index].id? 'save_button':'hide_style'} 
+                        onClick={isAuthenticated ? () => this.handleSelector(imgs[index].id) : ()=> history.push('/login')}><i class="fas fa-plus"></i></button>
                         <Fade bottom duration={600} >
-                          <li key={imgs[index].id} role="presentation" onClick={() => history.push(`/images/${imgs[index].id}`)}>
-                            <div className="preview">
-                              <img src={imgs[index].urls.regular} alt="" />
-                            </div>
+                          <li key={imgs[index].id} role="presentation" 
+                          onClick={() => history.push(`/images/${imgs[index].id}`)}>
+                            <div className={showAddBtn === imgs[index].id? 'hover_layer':'hide_style'}></div>
+                            <img src={imgs[index].urls.regular} alt="" />
                           </li>
                         </Fade>
-                      </Fragment>
+                      </div>
                     );
                   }
                 })
@@ -126,7 +155,6 @@ class Home extends Component {
             <div className="clearfix" />
           </ul>
         </div>
-        : <Loading />}
       </Fragment>
     );
   }

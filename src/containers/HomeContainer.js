@@ -25,7 +25,10 @@ const mapDispatchToProps = (dispatch) => {
     query: text => dispatch(actions.query(text)),
     showTopSearch: (boolean) => {
       dispatch(actions.showTopSearch(boolean))
-    }
+    },
+    getSingleImg: (imgId) => {
+      dispatch(actions.getSingleImg(imgId));
+    },
   };
 };
 const mapStateToProps = (state) => {
@@ -38,7 +41,8 @@ const mapStateToProps = (state) => {
     isLoadingSynonym: state.posts.isLoadingSynonym,
     syn: state.posts.syn,
     topSearch: state.posts.topSearch,
-    isAuthenticated: state.posts.isAuthenticated
+    isAuthenticated: state.posts.isAuthenticated,
+    singleImg: state.posts.singleImg,
   };
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeContainer));

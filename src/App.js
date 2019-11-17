@@ -12,7 +12,6 @@ import firebase from 'firebase';
 export class App extends Component {
   componentDidMount() {
     const { isLoggedIn } = this.props;
-    // var that = this;
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.log("user",user);
