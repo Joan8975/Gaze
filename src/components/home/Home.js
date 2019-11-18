@@ -18,7 +18,9 @@ class Home extends Component {
       page: 1, // 目前的頁碼
       showAddBtn: '',
       showSelector: false,
-      currentImgId:''
+      currentImgId:'',
+      createName:'',
+      editMode: false,
     };
     const { initImgs } = this.props;
     initImgs([])
@@ -97,16 +99,30 @@ class Home extends Component {
       currentImgId: id,
       showSelector: true,
     })
+    document.body.style.overflow = "hidden"
     // alert('ok')
   }
   handleClose = () => {
     this.setState({
       showSelector:false,
+      createName: '',
+      editMode: false,
+    })
+    document.body.style.overflow = "visible"
+  }
+  handleCreate = (e) => {
+    this.setState({
+      createName: e.target.value
+    })
+  }
+  handleEditMode = () => {
+    this.setState({
+      editMode: true,
     })
   }
 
   render() {
-    const { page, hasMore,currentImgId,showSelector,showAddBtn } = this.state;
+    const { page, hasMore,currentImgId,showSelector,showAddBtn,createName,editMode } = this.state;
     const { history, imgs, isLoadingGetImgs,query,queryTxt,getImgsList,initImgs, isLoadingRandomImgs,syn,isLoadingSynonym, getSynonymList, isAuthenticated,getSingleImg,singleImg} = this.props;
     const breakpointColumnsObj = {
       default: 3,
@@ -117,7 +133,7 @@ class Home extends Component {
       <Fragment>
         <div className="container">
           {showSelector && <Selector handleClose={this.handleClose} currentImgId={currentImgId}
-          getSingleImg={getSingleImg}  singleImg={singleImg}/>}
+          getSingleImg={getSingleImg}  singleImg={singleImg} createName={createName} handleCreate={this.handleCreate} editMode={editMode} handleEditMode={this.handleEditMode}/>}
 
           <Search query={query} queryTxt={queryTxt} getImgsList={getImgsList} page={page} initImgs={initImgs} history={history} syn={syn} isLoadingSynonym={isLoadingSynonym} getSynonymList={getSynonymList}
           onScroll={this.handleScroll}

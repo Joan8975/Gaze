@@ -13,6 +13,10 @@
 *:focus{
 	outline: none;
 }
+input,textarea {
+	width:100%;
+	display:block 
+}
 .clearfix{
 	clear: both;
 }
