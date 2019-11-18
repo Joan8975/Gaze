@@ -11,6 +11,8 @@ export const getSynonym = (word) => fetch(`https://words.bighugelabs.com/api/2/5
 
 export const singleImg = (imgId) => fetch(`https://api.unsplash.com/photos/${imgId}?client_id=773741e75ba8c52b7d3d825cd4c33cf637a1f77a7fe0f64109e4f5bdd35e22ad`).then(res => res.json())
 
+export const allCollections = (email) => fetch(`http://localhost:8080/gaze/api/allCollections.php?email=${email}`).then(res => res.json())
+
 
 
 

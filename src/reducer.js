@@ -19,6 +19,8 @@ const state = {
   response: '',
   authError: null,
   isAuthenticated: false,
+  allCollections:[],
+  isLoadingAllCollections: false,
 
 
 
@@ -133,7 +135,21 @@ function reducer(globalState = state, action) {
     return {
       ...globalState,
       isAuthenticated: action.value,
-  };
+    };
+    case actionTypes.ALL_COLLECTIONS_PENDING:
+    return {
+      ...globalState,
+      isLoadingAllCollections: true,
+    };
+    case actionTypes.ALL_COLLECTIONS_FULFILLED:
+      return {
+      ...globalState,
+      isLoadingAllCollections: false,
+      allCollections: action.payload,
+    };
+    
+
+  
 
 
 

@@ -64,6 +64,14 @@ export const checkLogin = (boolean) =>  {
     value: boolean
   }
 }
+export const getAllCollections = (email) => {
+  return {
+    type: actionTypes.ALL_COLLECTIONS,
+    payload: WebAPI.allCollections(email),
+  };
+};
+
+
 
 
 

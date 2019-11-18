@@ -6,8 +6,7 @@ import Search from '../search/Search'
 import Loading from '../loading/Loading';
 import Masonry from 'react-masonry-css'
 import Fade from 'react-reveal/Fade';
-import Selector from '../selector/Selector'
-import firebase from 'firebase';
+import Selector from '../../containers/SelectorContainer'
 
 
 class Home extends Component {
