@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Collection from '../components/collection/Collection';
+import Saves from '../components/saves/Saves';
 import * as actions from '../actions';
 
-const CollectionContainer = (props) => {
-  return <Collection {...props} />;
+const SavesContainer = (props) => {
+  return <Saves {...props} />;
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch) => {
     getAllCollections: (email) => {
       dispatch(actions.getAllCollections(email));
     },
+    deleteSingleSave: (deleteSave) => {
+      dispatch(actions.deleteSingleSave(deleteSave));
+    }
 
   };
 };
@@ -26,6 +29,7 @@ const mapStateToProps = (state) => {
     allSaves: state.posts.allSaves,
     allCollections: state.posts.allCollections,
     isLoadingAllCollections: state.posts.isLoadingAllCollections,
+    isLoadingDeleteSave: state.posts.isLoadingDeleteSave,
   };
 };
-export default withRouter((connect(mapStateToProps, mapDispatchToProps)(CollectionContainer)));
+export default withRouter((connect(mapStateToProps, mapDispatchToProps)(SavesContainer)));

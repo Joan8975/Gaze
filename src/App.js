@@ -6,7 +6,8 @@ import Login from './containers/LoginContainer';
 import Home from './containers/HomeContainer';
 import SinglePage from './containers/SinglePageContainer';
 import Signup from './containers/SignupContainer';
-import Collection from './containers/CollectionContainer';
+import Saves from './containers/SavesContainer';
+import Collections from './containers/CollectionsContainer';
 import firebase from 'firebase';
 
 export class App extends Component {
@@ -37,7 +38,8 @@ export class App extends Component {
           <Route path="/signup" render={() => <Signup isAuthenticated={isAuthenticated} 
           isLoggedIn={isLoggedIn}/>}/>
           <Route path="/search/:query" render={() => <Home isAuthenticated={isAuthenticated}/>} />
-          <Route path="/collection" render={() => <Collection/>} />
+          <Route path="/saves" render={() => <Saves/>} />
+          <Route path="/collections/:collectionName" render={() => <Collections/>} />
         </div>
       </div>
     </Router>

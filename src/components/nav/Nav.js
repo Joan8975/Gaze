@@ -38,10 +38,14 @@ class Nav extends Component {
     firebase.auth().signOut()
   }
   componentDidUpdate(prepProps,prevState) {
-    const {isLoadingSaveImg} = this.props;
+    const { isLoadingSaveImg,isLoadingDeleteSave } = this.props;
     if (prepProps.isLoadingSaveImg === false && isLoadingSaveImg === true) {
       let myColor = { background: '#0E1717', text: "#FFFFFF" };
       notify.show("Save successfully!", "custom", 5000, myColor);
+    }
+    if (prepProps.isLoadingDeleteSave === false && isLoadingDeleteSave === true) {
+      let myColor = { background: '#0E1717', text: "#FFFFFF" };
+      notify.show("Delete successfully!", "custom", 5000, myColor);
     }
   }
 
@@ -50,7 +54,7 @@ class Nav extends Component {
 
     const userLinks = (
       <nav>
-        <MenuLink to="/collection" label="Collection" updateNav={updateNav} className="tab"/>
+        <MenuLink to="/saves" label="My Board" updateNav={updateNav} className="tab"/>
         <button className="tab" onClick={this.handleLogout}>Logout</button>
       </nav>
     )

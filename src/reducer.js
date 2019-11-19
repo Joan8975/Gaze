@@ -24,19 +24,8 @@ const state = {
   isLoadingSaveImg: false,
   isLoadingAllSaves: false,
   allSaves:[],
+  isLoadingDeleteSave: false,
 
-
-
-
-
-  posts: [],
-  isLoadingGetPosts: false,
-  totalPage: '',
-  singlePost: [],
-  isLoadingSinglePost: false,
-  isLoadingUpdatePost: false,
-  isLoadingDeletePost: false,
-  isLoadingCreatePost: false,
 };
 
 function reducer(globalState = state, action) {
@@ -48,29 +37,6 @@ function reducer(globalState = state, action) {
         ...globalState,
         navText: action.value,
       };
-    case actionTypes.FIELD_INVALID:
-      return {
-        ...globalState,
-        invalidInput: action.value,
-      };
-    case actionTypes.FIELD_AUTHOR:
-      return {
-        ...globalState,
-        author: action.value,
-      };
-    case actionTypes.FIELD_TITLE:
-      return {
-        ...globalState,
-        title: action.value,
-      };
-    case actionTypes.FIELD_BODY:
-      return {
-        ...globalState,
-        body: action.value,
-      };
-
-
-
     case actionTypes.QUERY:
     return {
       ...globalState,
@@ -171,68 +137,21 @@ function reducer(globalState = state, action) {
       isLoadingAllSaves: false,
       allSaves: action.payload,
     };
+    case actionTypes.DELETE_SAVE_PENDING:
+    return {
+      ...globalState,
+      isLoadingDeleteSave: true,
+    };
+    case actionTypes.DELETE_SAVE_FULFILLED:
+      return {
+      ...globalState,
+      isLoadingDeleteSave: false,
+    };
     
     
-    
-
-  
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    case actionTypes.GET_POSTS_PENDING:
-      return {
-        ...globalState,
-        isLoadingGetPosts: true,
-      };
-    case actionTypes.GET_POSTS_FULFILLED:
-      return {
-        ...globalState,
-        isLoadingGetPosts: false,
-        posts: action.payload.data,
-        // totalPage: Math.ceil(action.payload.data.length / 9),
-      };
-    case actionTypes.GET_UPDATE_POST_PENDING:
-      return {
-        ...globalState,
-        isLoadingUpdatePost: true,
-      };
-    case actionTypes.GET_UPDATE_POST_FULFILLED:
-      return {
-        ...globalState,
-        isLoadingUpdatePost: false,
-      };
-    case actionTypes.GET_DELETE_POST_PENDING:
-      return {
-        ...globalState,
-        isLoadingDeletePost: true,
-      };
-    case actionTypes.GET_DELETE_POST_FULFILLED:
-      return {
-        ...globalState,
-        isLoadingDeletePost: false,
-      };
-    case actionTypes.GET_CREATE_POST_PENDING:
-      return {
-        ...globalState,
-        isLoadingCreatePost: true,
-      };
-    case actionTypes.GET_CREATE_POST_FULFILLED:
-      return {
-        ...globalState,
-        isLoadingCreatePost: false,
-      };
     default:
       return globalState;
   }

@@ -82,7 +82,12 @@ export const getAllSaves = (email) => {
     payload: WebAPI.allSaves(email),
   };
 }
-
+export const deleteSingleSave = (deleteSave) => {
+  return {
+    type: actionTypes.DELETE_SAVE,
+    payload: WebAPI.deleteSave(deleteSave),
+  };
+}
 
 
 

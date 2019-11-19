@@ -1,12 +1,12 @@
 /* jsx-a11y/no-static-element-interactions */
 import React, { Component,Fragment } from 'react'
-import './Collection.css';
+import './Saves.css';
 import Masonry from 'react-masonry-css'
 import firebase from 'firebase';
 import Loading from '../loading/Loading';
 
 
-export class Collection extends Component {
+export class Saves extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,11 +29,20 @@ export class Collection extends Component {
   }
   // 600 之後沒拿到更新的資料，在重新刷新後還是可以更新資料
   componentDidUpdate(prepProps,prevState) {
-    const { isAuthenticated,getAllSaves,getAllCollections } = this.props;
+    const { isAuthenticated,getAllSaves,getAllCollections,isLoadingDeleteSave } = this.props;
     if (prepProps.isAuthenticated === false && isAuthenticated === true) {
       getAllSaves(firebase.auth().currentUser.email)
       getAllCollections(firebase.auth().currentUser.email)
     }
+    // 先顯示已刪除通知再刷新
+    this.timer = setTimeout(
+      () => {
+        if (prepProps.isLoadingDeleteSave === false && isLoadingDeleteSave === true) {
+          window.location.reload();
+        }
+      },
+      600,
+    );
   }
 
   handleTab = (e) => {
@@ -54,15 +63,19 @@ export class Collection extends Component {
     })
   }
 
-  handleDelete = ()  => {
-    
+  handleDelete(imgId, collection) {
+    const { deleteSingleSave } = this.props;
+    const deleteSave = {
+      email: firebase.auth().currentUser.email,
+      imgId,
+      collection,
+    }
+    deleteSingleSave(deleteSave)
   }
 
 
-
   render() {
-    // console.log(firebase.auth().currentUser.email);
-    const {isAuthenticated,allSaves,isLoadingAllCollections,allCollections}=this.props;
+    const { history,isAuthenticated,allSaves,isLoadingAllCollections,allCollections}=this.props;
     const { photoTab,showDeleteBtn } = this.state;
     const breakpointColumnsObj = {
       default: 3,
@@ -76,25 +89,24 @@ export class Collection extends Component {
       className="my-masonry-grid"
       columnClassName="my-masonry-grid_column">
       {allSaves.map((item, index) => {
-          return (
-            <Fragment>
-                <div class="outter"
-                onMouseOver={() => this.handleHoverOver(allSaves[index].imgId)}
-                onMouseOut={this.handleHoverOut}>
-                  <button className={showDeleteBtn === allSaves[index].imgId? 'save_button':'hide_style'}
-                  onClick={this.handleDelete} 
-                  ><i class="fas fa-trash-alt"></i></button>
-                  <li key={allSaves[index].imgId} role="presentation" >
-                    <div className="preview">
-                      <div className={showDeleteBtn === allSaves[index].imgId ? 'hover_layer':'hide_style'}></div>
-                      <img src={allSaves[index].content} alt="" />
-                    </div>
-                  </li>
-                </div>
-            </Fragment>
-          );
-        }
-        )
+        return (
+          <Fragment>
+              <div className="outter"
+              onMouseOver={() => this.handleHoverOver(allSaves[index].imgId)}
+              onMouseOut={this.handleHoverOut}>
+                <button className={showDeleteBtn === allSaves[index].imgId? 'save_button':'hide_style'}
+                onClick={() => this.handleDelete(allSaves[index].imgId,allSaves[index].collection)} 
+                ><i className="fas fa-trash-alt"></i></button>
+                <li key={allSaves[index].imgId} role="presentation" >
+                  <div className="preview">
+                    <div className={showDeleteBtn === allSaves[index].imgId ? 'hover_layer':'hide_style'}></div>
+                    <img src={allSaves[index].content} alt="" />
+                  </div>
+                </li>
+              </div>
+          </Fragment>
+        );
+        })
       }
     </Masonry>
     )
@@ -105,7 +117,7 @@ export class Collection extends Component {
           allCollections.map((item, index) => {
             if (allCollections[index]) {
               return (
-                <li className="item item_m" onClick={() => this.handleSave(item.collection)}>{item.collection}
+                <li className="item item_m" onClick={() => history.push(`/collections/${item.collection}`)}>{item.collection}
                   <img className="preview_img_m" src={item.content} alt="" />
                 </li>
               )
@@ -133,4 +145,4 @@ export class Collection extends Component {
   }
 }
 
-export default Collection
+export default Saves
