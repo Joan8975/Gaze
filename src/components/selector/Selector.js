@@ -13,17 +13,39 @@ export class Selector extends Component {
     getSingleImg(currentImgId)
     getAllCollections(firebase.auth().currentUser.email)
   }
-  handleSave = () => {
-    
+
+
+  handleSave(collection){
+    const { saveNewImg, currentImgId, singleImg } = this.props;
+    const newSave = { 
+      email: firebase.auth().currentUser.email,
+      imgId: currentImgId,
+      content: singleImg.urls.regular,
+      collection,
+    }
+    saveNewImg(newSave)
+  }
+
+  handleNewSave = () => {
+    const { saveNewImg, currentImgId, singleImg,createName } = this.props;
+    const newSave = { 
+      email: firebase.auth().currentUser.email,
+      imgId: currentImgId,
+      content: singleImg.urls.regular,
+      collection: createName,
+    }
+    if (createName !== '') {
+      saveNewImg(newSave)
+    }
   }
 
   render() {
-    const { handleClose,currentImgId,singleImg,createName,handleCreate,handleEditMode,editMode, isLoadingAllCollections,allCollections} = this.props;
+    const { handleClose,singleImg,createName,handleCreate,handleEditMode,editMode, isLoadingAllCollections,allCollections} = this.props;
 
     const editCollection = (
       <div className="create_wrapper">
         <input className="add_input" placeholder="Create a collection" value={createName} onChange={handleCreate}/>
-        <button className="submit_add"><i class="fas fa-check"></i></button>
+        <button type="submit" className="submit_add" onClick={this.handleNewSave}><i class="fas fa-check"></i></button>
       </div>
     )
     return (
@@ -35,12 +57,12 @@ export class Selector extends Component {
             {!editMode? <button className="add_button" onClick={handleEditMode}>+ Create a new collection</button>:editCollection}
     	    <div className="all_collection">
             <div className="input_title">All Collections</div>
-            <div className="item_group">
+            <div className="item_group_s">
             {!isLoadingAllCollections ?
               allCollections.map((item, index) => {
                 if (allCollections[index]) {
                   return (
-                    <div className="item" onClick={this.handleSave}>{item.collection}
+                    <div className="item item_s" onClick={() => this.handleSave(item.collection)}>{item.collection}
                       <img className="preview_img_s" src={item.content} alt="" />
                     </div>
                   )

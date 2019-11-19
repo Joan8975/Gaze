@@ -38,11 +38,10 @@ class Nav extends Component {
     firebase.auth().signOut()
   }
   componentDidUpdate(prepProps,prevState) {
-    const {isAuthenticated } = this.props;
-
-    if (prepProps.isAuthenticated === false && isAuthenticated === true) {
+    const {isLoadingSaveImg} = this.props;
+    if (prepProps.isLoadingSaveImg === false && isLoadingSaveImg === true) {
       let myColor = { background: '#0E1717', text: "#FFFFFF" };
-      notify.show("this is sample text", "custom", 5000, myColor);
+      notify.show("Save successfully!", "custom", 5000, myColor);
     }
   }
 

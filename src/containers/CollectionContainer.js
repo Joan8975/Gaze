@@ -1,30 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Selector from '../components/selector/Selector';
+import Collection from '../components/collection/Collection';
 import * as actions from '../actions';
 
-const SelectorContainer = (props) => {
-  return <Selector {...props} />;
+const CollectionContainer = (props) => {
+  return <Collection {...props} />;
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return { 
+  return {
+    getAllSaves: (email) => {
+      dispatch(actions.getAllSaves(email));
+    },
     getAllCollections: (email) => {
       dispatch(actions.getAllCollections(email));
-    },
-    saveNewImg: (newSave) => {
-      dispatch(actions.saveNewImg(newSave));
     },
 
   };
 };
 const mapStateToProps = (state) => {
   return {
+    isAuthenticated: state.posts.isAuthenticated,
+    isLoadingAllSaves: state.posts.isLoadingAllSaves,
+    allSaves: state.posts.allSaves,
     allCollections: state.posts.allCollections,
     isLoadingAllCollections: state.posts.isLoadingAllCollections,
-    isLoadingSaveImg: state.posts.isLoadingSaveImg,
-
   };
 };
-export default withRouter((connect(mapStateToProps, mapDispatchToProps)(SelectorContainer)));
+export default withRouter((connect(mapStateToProps, mapDispatchToProps)(CollectionContainer)));

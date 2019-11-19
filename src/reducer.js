@@ -21,6 +21,9 @@ const state = {
   isAuthenticated: false,
   allCollections:[],
   isLoadingAllCollections: false,
+  isLoadingSaveImg: false,
+  isLoadingAllSaves: false,
+  allSaves:[],
 
 
 
@@ -147,6 +150,29 @@ function reducer(globalState = state, action) {
       isLoadingAllCollections: false,
       allCollections: action.payload,
     };
+    case actionTypes.SAVE_IMG_PENDING:
+    return {
+      ...globalState,
+      isLoadingSaveImg: true,
+    };
+    case actionTypes.SAVE_IMG_FULFILLED:
+      return {
+      ...globalState,
+      isLoadingSaveImg: false,
+    };
+    case actionTypes.ALL_SAVES_PENDING:
+    return {
+      ...globalState,
+      isLoadingAllSaves: true,
+    };
+    case actionTypes.ALL_SAVES_FULFILLED:
+      return {
+      ...globalState,
+      isLoadingAllSaves: false,
+      allSaves: action.payload,
+    };
+    
+    
     
 
   

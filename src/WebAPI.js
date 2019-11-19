@@ -14,6 +14,15 @@ export const singleImg = (imgId) => fetch(`https://api.unsplash.com/photos/${img
 export const allCollections = (email) => fetch(`http://localhost:8080/gaze/api/allCollections.php?email=${email}`).then(res => res.json())
 
 
+export const postImg = (newSave) => fetch('http://localhost:8080/gaze/api/saves.php',{
+  method: 'POST',
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(newSave),
+  }).then(res => res.json())
+
+export const allSaves = (email) => fetch(`http://localhost:8080/gaze/api/saves.php?email=${email}`).then(res => res.json())
 
 
 

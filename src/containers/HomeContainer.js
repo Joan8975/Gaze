@@ -43,6 +43,7 @@ const mapStateToProps = (state) => {
     topSearch: state.posts.topSearch,
     isAuthenticated: state.posts.isAuthenticated,
     singleImg: state.posts.singleImg,
+    isLoadingSaveImg: state.posts.isLoadingSaveImg,
   };
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeContainer));

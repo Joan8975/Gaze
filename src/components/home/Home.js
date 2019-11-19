@@ -26,7 +26,6 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    
     const { getImgsList,query,getRandomImgs, getSynonymList} = this.props;
     const { page } = this.state;
     window.addEventListener('scroll', this.handleScroll);
@@ -46,7 +45,7 @@ class Home extends Component {
   }
 
   componentDidUpdate(prepProps,prevState) {
-    const { isLoadingGetImgs, totalPage, isLoadingRandomImgs, isAuthenticated } = this.props;
+    const { isLoadingGetImgs, totalPage, isLoadingRandomImgs, isLoadingSaveImg} = this.props;
     const { page } = this.state;
 
     if (prepProps.isLoadingGetImgs === true && isLoadingGetImgs === false) {
@@ -58,6 +57,14 @@ class Home extends Component {
       this.setState({
         hasMore: !(page === totalPage || totalPage === 0),
       });
+    }
+    if (prepProps.isLoadingSaveImg === true && isLoadingSaveImg === false) {
+      this.setState({
+        showSelector:false,
+        createName: '',
+        editMode: false,
+      })
+      document.body.style.overflow = "visible"
     }
   }
 

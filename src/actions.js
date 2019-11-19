@@ -70,6 +70,18 @@ export const getAllCollections = (email) => {
     payload: WebAPI.allCollections(email),
   };
 };
+export const saveNewImg = (newSave) => {
+  return {
+    type: actionTypes.SAVE_IMG,
+    payload: WebAPI.postImg(newSave),
+  };
+}
+export const getAllSaves = (email) => {
+  return {
+    type: actionTypes.ALL_SAVES,
+    payload: WebAPI.allSaves(email),
+  };
+}
 
 
 
