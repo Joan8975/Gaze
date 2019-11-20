@@ -9,8 +9,9 @@ import Loading from '../loading/Loading';
 export class Saves extends Component {
   constructor(props) {
     super(props);
+    const { photoTab } = this.props;
     this.state = {
-      photoTab: true, 
+      photoTab, 
       showDeleteBtn: '',
     };
   }
@@ -21,25 +22,16 @@ export class Saves extends Component {
       getAllSaves(firebase.auth().currentUser.email)
       getAllCollections(firebase.auth().currentUser.email)
     }
-
-    //延遲一秒讓 firebase 先抓到資料，以下設定就可以不用寫 componentDidUpdate
-    // this.timer = setTimeout(
-    //   () => {
-    //     if(firebase.auth().currentUser) {
-    //       getAllSaves(firebase.auth().currentUser.email)
-    //       getAllCollections(firebase.auth().currentUser.email)
-    //     }
-    //   },
-    //   1000,
-    // );
-
   }
   // 有刷新跑這邊，isAuthenticated state 有改變才做
   componentDidUpdate(prepProps,prevState) {
-    const { isAuthenticated,getAllSaves,getAllCollections,isLoadingDeleteSave } = this.props;
+    const { history,isAuthenticated,getAllSaves,getAllCollections,isLoadingDeleteSave } = this.props;
     if (prepProps.isAuthenticated === false && isAuthenticated === true) {
       getAllSaves(firebase.auth().currentUser.email)
       getAllCollections(firebase.auth().currentUser.email)
+    }
+    if (prepProps.isAuthenticated === true && isAuthenticated === false) {
+      history.push('/')
     }
     // 先顯示已刪除通知再刷新
     this.timer = setTimeout(
@@ -50,12 +42,6 @@ export class Saves extends Component {
       },
       600,
     );
-  }
-
-  handleTab = (e) => {
-    this.setState({
-      photoTab: e.target.name === 'photos'
-    })
   }
 
   handleHoverOver(id){
@@ -89,24 +75,28 @@ export class Saves extends Component {
       1100: 2,
       700: 1
     };
+    console.log('savemsg='+allSaves.message);
+    console.log('collectionmsg='+allCollections.message);
+    
 
     const photos = (
     <Masonry
       breakpointCols={breakpointColumnsObj}
       className="my-masonry-grid"
       columnClassName="my-masonry-grid_column">
-      {allSaves.map((item, index) => {
+      {allSaves.message !== 'no content' && 
+        allSaves.map((item, index) => {
         return (
           <Fragment>
               <div className="outter"
-              onMouseOver={() => this.handleHoverOver(allSaves[index].imgId)}
+              onMouseOver={() => this.handleHoverOver(allSaves[index].id)}
               onMouseOut={this.handleHoverOut}>
-                <button className={showDeleteBtn === allSaves[index].imgId? 'save_button':'hide_style'}
+                <button className={showDeleteBtn === allSaves[index].id? 'save_button':'hide_style'}
                 onClick={() => this.handleDelete(allSaves[index].imgId,allSaves[index].collection)} 
                 ><i className="fas fa-trash-alt"></i></button>
                 <li key={allSaves[index].imgId} role="presentation" >
                   <div className="preview">
-                    <div className={showDeleteBtn === allSaves[index].imgId ? 'hover_layer':'hide_style'}></div>
+                    <div className={showDeleteBtn === allSaves[index].id ? 'hover_layer':'hide_style'}></div>
                     <img src={allSaves[index].content} alt="" />
                   </div>
                 </li>
@@ -120,7 +110,7 @@ export class Saves extends Component {
 
     const collections = (
       <div className="item_group_m">
-        {!isLoadingAllCollections ?
+        {allCollections.message !== 'no content' &&
           allCollections.map((item, index) => {
             if (allCollections[index]) {
               return (
@@ -130,7 +120,7 @@ export class Saves extends Component {
               )
             }
           })
-        :<Loading />}
+        }
       </div>
     )
 
@@ -138,11 +128,11 @@ export class Saves extends Component {
       <div className="container">
         <div className="profile">
           <div className="username">{isAuthenticated && firebase.auth().currentUser.displayName}</div>
-          <div className="profile_subtitle">Photos {allSaves.length} | Collections {allCollections.length}</div>
+          <div className="profile_subtitle">Photos {allSaves.message !== "no content" ? allSaves.length : 0} | Collections {allSaves.message !== "no content" ? allCollections.length : 0}</div>
         </div>
         <div className="tab_bar">
-          <button type="button" className={photoTab ? 'tab_item_active': 'tab_item'} name="photos" onClick={this.handleTab}>Photos</button>
-          <button type="button" className={!photoTab ? 'tab_item_active': 'tab_item'} name="collections" onClick={this.handleTab}>Collections</button>
+          <button type="button" className={photoTab ? 'tab_item_active': 'tab_item'} onClick={() => history.push('/saves/photos')}>Photos</button>
+          <button type="button" className={!photoTab ? 'tab_item_active': 'tab_item'} onClick={() => history.push('/saves/collections')}>Collections</button>
         </div>
         <ul>
           { photoTab ? photos : collections}

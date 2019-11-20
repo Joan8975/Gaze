@@ -18,7 +18,6 @@ const MenuLink = ({ label, to, activeOnlyWhenExact, updateNav,className }) => (
 );
 
 class Nav extends Component {
-
   handleChange = (e) => {
     const {query} = this.props;
     query(e.target.value)
@@ -33,10 +32,12 @@ class Nav extends Component {
       history.push('/search/'+ queryTxt);
     }
   }
+
   handleLogout = () => {
     this.props.isLoggedIn(false);
     firebase.auth().signOut()
   }
+  
   componentDidUpdate(prepProps,prevState) {
     const { isLoadingSaveImg,isLoadingDeleteSave } = this.props;
     if (prepProps.isLoadingSaveImg === false && isLoadingSaveImg === true) {
@@ -54,7 +55,7 @@ class Nav extends Component {
 
     const userLinks = (
       <nav>
-        <MenuLink to="/saves" label="My Board" updateNav={updateNav} className="tab"/>
+        <MenuLink to="/saves/photos" label="My Board" updateNav={updateNav} className="tab"/>
         <button className="tab" onClick={this.handleLogout}>Logout</button>
       </nav>
     )

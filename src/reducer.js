@@ -25,6 +25,7 @@ const state = {
   isLoadingAllSaves: false,
   allSaves:[],
   isLoadingDeleteSave: false,
+  deleteSaveMsg:'',
   isLoadingCollectionSaves: false,
   collectionSaves:[],
 
@@ -148,6 +149,7 @@ function reducer(globalState = state, action) {
       return {
       ...globalState,
       isLoadingDeleteSave: false,
+      deleteSaveMsg: action.payload,
     };
     case actionTypes.COLLECTION_SAVES_PENDING:
     return {

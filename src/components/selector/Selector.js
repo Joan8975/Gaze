@@ -58,7 +58,7 @@ export class Selector extends Component {
     	    <div className="all_collection">
             <div className="input_title">All Collections</div>
             <div className="item_group_s">
-            {!isLoadingAllCollections ?
+            {allCollections.message !== 'no content' ?
               allCollections.map((item, index) => {
                 if (allCollections[index]) {
                   return (

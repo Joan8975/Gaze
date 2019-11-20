@@ -17,12 +17,13 @@ export class Collections extends Component {
       } = this.props;
     this.state = {
       currentCollection: decodeURI(collectionName),
+      showDeleteBtn: '',
     };
   }
 
   componentDidMount() {
-    const { isAuthenticated, getCollectionSaves} = this.props;
     const { currentCollection } = this.state;
+    const { isAuthenticated, getCollectionSaves} = this.props;
     if (isAuthenticated) {
       getCollectionSaves(firebase.auth().currentUser.email,currentCollection)
     }
@@ -30,16 +31,52 @@ export class Collections extends Component {
 
   componentDidUpdate(prepProps,prevState) {
     const { currentCollection } = this.state;
-    const email = firebase.auth().currentUser.email
-    const { isAuthenticated,getCollectionSaves } = this.props;
+    const { history,isAuthenticated,getCollectionSaves,isLoadingDeleteSave,deleteSaveMsg } = this.props;
     if (prepProps.isAuthenticated === false && isAuthenticated === true) {
-      getCollectionSaves(email,currentCollection)
+      getCollectionSaves(firebase.auth().currentUser.email,currentCollection)
     }
+    if (prepProps.isAuthenticated === true && isAuthenticated === false) {
+      history.push('/')
+    }
+    // 先顯示已刪除通知再刷新
+    this.timer = setTimeout(
+      () => {
+        if (prepProps.isLoadingDeleteSave === false && isLoadingDeleteSave === true) {
+          if(deleteSaveMsg === '') {
+            window.location.reload();
+          }
+          history.goBack()
+        }
+      },
+      600,
+    );
+  }
+
+  handleHoverOver(id){
+    this.setState({
+      showDeleteBtn: id,
+    })
+  }
+
+  handleHoverOut = () => {
+    this.setState({
+      showDeleteBtn: ''
+    })
+  }
+
+  handleDelete(imgId, collection) {
+    const { deleteSingleSave } = this.props;
+    const deleteSave = {
+      email: firebase.auth().currentUser.email,
+      imgId,
+      collection,
+    }
+    deleteSingleSave(deleteSave)
   }
 
   render() {
     const { isAuthenticated,collectionSaves } = this.props;
-    const { currentCollection } = this.state;
+    const { currentCollection,showDeleteBtn } = this.state;
     const breakpointColumnsObj = {
       default: 3,
       1100: 2,
@@ -61,15 +98,15 @@ export class Collections extends Component {
             return (
               <Fragment>
                   <div className="outter"
-                  // onMouseOver={() => this.handleHoverOver(collectionSaves[index].imgId)}
-                  // onMouseOut={this.handleHoverOut}
+                  onMouseOver={() => this.handleHoverOver(collectionSaves[index].id)}
+                  onMouseOut={this.handleHoverOut}
                   >
-                    {/* <button className={showDeleteBtn === allSaves[index].imgId? 'save_button':'hide_style'}
-                    onClick={() => this.handleDelete(allSaves[index].imgId,allSaves[index].collection)} 
-                    ><i className="fas fa-trash-alt"></i></button> */}
+                    <button className={showDeleteBtn === collectionSaves[index].id? 'save_button':'hide_style'}
+                    onClick={() => this.handleDelete(collectionSaves[index].imgId,currentCollection)} 
+                    ><i className="fas fa-trash-alt"></i></button>
                     <li key={collectionSaves[index].imgId} role="presentation" >
                       <div className="preview">
-                        {/* <div className={showDeleteBtn === allSaves[index].imgId ? 'hover_layer':'hide_style'}></div> */}
+                        <div className={showDeleteBtn === collectionSaves[index].id ? 'hover_layer':'hide_style'}></div>
                         <img src={collectionSaves[index].content} alt="" />
                       </div>
                     </li>

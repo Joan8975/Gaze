@@ -38,7 +38,8 @@ export class App extends Component {
           <Route path="/signup" render={() => <Signup isAuthenticated={isAuthenticated} 
           isLoggedIn={isLoggedIn}/>}/>
           <Route path="/search/:query" render={() => <Home isAuthenticated={isAuthenticated}/>} />
-          <Route path="/saves" render={() => <Saves/>} />
+          <Route path="/saves/photos" render={() => <Saves photoTab/>} />
+          <Route path="/saves/collections" render={() => <Saves/>} />
           <Route path="/collections/:collectionName" render={() => <Collections/>} />
         </div>
       </div>
