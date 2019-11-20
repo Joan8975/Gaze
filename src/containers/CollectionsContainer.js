@@ -10,9 +10,9 @@ const CollectionsContainer = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // getAllSaves: (email) => {
-    //   dispatch(actions.getAllSaves(email));
-    // },
+    getCollectionSaves: (email,collection) => {
+      dispatch(actions.getCollectionSaves(email,collection));
+    },
     // getAllCollections: (email) => {
     //   dispatch(actions.getAllCollections(email));
     // },
@@ -24,7 +24,9 @@ const mapDispatchToProps = (dispatch) => {
 };
 const mapStateToProps = (state) => {
   return {
-    // isAuthenticated: state.posts.isAuthenticated,
+    isAuthenticated: state.posts.isAuthenticated,
+    isLoadingCollectionSaves: state.posts.isLoadingCollectionSaves,
+    collectionSaves: state.posts.collectionSaves,
     // isLoadingAllSaves: state.posts.isLoadingAllSaves,
     // allSaves: state.posts.allSaves,
     // allCollections: state.posts.allCollections,

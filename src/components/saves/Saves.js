@@ -14,20 +14,27 @@ export class Saves extends Component {
       showDeleteBtn: '',
     };
   }
-
+  //沒刷新跑這邊，每一次進來都會做
   componentDidMount() {
     const { isAuthenticated, getAllSaves,getAllCollections } = this.props;
-    this.timer = setTimeout(
-      () => {
-        if (isAuthenticated) {
-          getAllSaves(firebase.auth().currentUser.email)
-          getAllCollections(firebase.auth().currentUser.email)
-        }
-      },
-      600,
-    );
+    if(isAuthenticated) {
+      getAllSaves(firebase.auth().currentUser.email)
+      getAllCollections(firebase.auth().currentUser.email)
+    }
+
+    //延遲一秒讓 firebase 先抓到資料，以下設定就可以不用寫 componentDidUpdate
+    // this.timer = setTimeout(
+    //   () => {
+    //     if(firebase.auth().currentUser) {
+    //       getAllSaves(firebase.auth().currentUser.email)
+    //       getAllCollections(firebase.auth().currentUser.email)
+    //     }
+    //   },
+    //   1000,
+    // );
+
   }
-  // 600 之後沒拿到更新的資料，在重新刷新後還是可以更新資料
+  // 有刷新跑這邊，isAuthenticated state 有改變才做
   componentDidUpdate(prepProps,prevState) {
     const { isAuthenticated,getAllSaves,getAllCollections,isLoadingDeleteSave } = this.props;
     if (prepProps.isAuthenticated === false && isAuthenticated === true) {
