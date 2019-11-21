@@ -31,21 +31,38 @@ class SinglePage extends Component {
     return (
       <Fragment>
         {!isLoadingSingleImg && singleImg
-          ? <Fragment>
-            <div className="title_group">
-              <div className="subtitle">{singleImg.user.name}</div>
-              {/* <div className="article_title">{title}</div> */}
-            </div>
-            <img className="article_img" src={singleImg.urls.regular} alt=""/>
-            {/* <div className="article_container">
-              <div className="article_content">{body}</div>
-              <div className="btn_controller">
-                <Link className="common_button left_button" to="/">Back</Link>
-                <button type="submit" className="common_button delete_button " onClick={() => this.handleDelete(postId)}>Delete</button>
-                <button type="submit" className="common_button " onClick={() => history.push(`/edit/${postId}#${page}#${index}`)}>Edit</button>
+          ? 
+          <div className="container">
+            <div className="single_container">
+              <img className="single_img" src={singleImg.urls.regular} alt=""/>
+              <div className="single_info">
+                <button className='save_button_dark'><i class="fas fa-plus"></i></button>
+                <button className='download_button'>Download</button>
+                <div class="tag_group">
+                  <p className="subtitle">Uploaded by</p>
+                  <div className="creater">
+                    <img className="create_profile" src={singleImg.user.profile_image.medium} alt="" />
+                    <p className="creater_name">{singleImg.user.name}</p>
+                  </div>
+                  <p className="subtitle">Related tags</p>
+                  <ul>
+                    {!isLoadingSingleImg &&
+                      singleImg.tags.map((item, index) => {
+                        if ( index > 0 && index < 7  && singleImg.tags[index]) {
+                          return (
+                            <li className="single_tag" style={{ backgroundColor: [singleImg.color]}}>{singleImg.tags[index].title}</li>
+                          )
+                        }
+                      })
+                    }
+                  </ul>
+                  <ul>
+                    
+                  </ul>
+                </div>
               </div>
-            </div> */}
-          </Fragment>
+            </div>
+          </div>
           : <Loading />}
       </Fragment>
     );

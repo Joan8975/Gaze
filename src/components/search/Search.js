@@ -6,17 +6,25 @@ import './Search.css';
 
 
 class Search extends Component {
+  
+  // componentDidUpdate(prevProps,prevState) {
+  //   const {history,getImgsList,imgs,queryTxt,getSynonymList} = this.props;
+  //   if (prevProps.imgs !== [] && imgs === []) {
+  //     getImgsList(1, queryTxt);
+  //     getSynonymList(queryTxt)
+  //     history.push('/search/'+ queryTxt);
+  //   }
+  // }
+
   handleChange = (e) => {
     const {query} = this.props;
     query(e.target.value)
   }
 
   handleKeyPress = (e) => {
-    const {history,getImgsList,page,queryTxt,initImgs,getSynonymList} = this.props;
+    const {history,getImgsList,page,queryTxt,initImgs,getSynonymList,handleSearchTxt} = this.props;
     if(e.key === 'Enter') {
-      initImgs([])
-      getImgsList(page, queryTxt);
-      getSynonymList(queryTxt)
+      handleSearchTxt(queryTxt)
       history.push('/search/'+ queryTxt);
     }
   }
@@ -25,10 +33,9 @@ class Search extends Component {
   handleSyn(item) {
     const {query} = this.props;
     query(item)
-    const {history,getImgsList,page,initImgs,getSynonymList} = this.props;
-      initImgs([])
-      getSynonymList(item)
-      getImgsList(page,item);
+    const {history,getImgsList,page,initImgs,getSynonymList,handleSearchTxt} = this.props;
+
+      handleSearchTxt(item)
       history.push('/search/'+ item);
   }
 
@@ -57,12 +64,12 @@ class Search extends Component {
             })
             :       
             <Fragment>
-            <li className="synonum" onClick={() => this.handleSyn('animal')}>animal</li>
-            <li className="synonum" onClick={() => this.handleSyn('texture')}>texture</li>
-            <li className="synonum" onClick={() => this.handleSyn('fashion')}>fashion</li>
-            <li className="synonum" onClick={() => this.handleSyn('nature')}>nature</li>
-            <li className="synonum" onClick={() => this.handleSyn('architecture')}>architecture</li>
-            <li className="synonum" onClick={() => this.handleSyn('food')}>food</li>
+              <li className="synonum" onClick={() => this.handleSyn('animal')}>animal</li>
+              <li className="synonum" onClick={() => this.handleSyn('texture')}>texture</li>
+              <li className="synonum" onClick={() => this.handleSyn('fashion')}>fashion</li>
+              <li className="synonum" onClick={() => this.handleSyn('nature')}>nature</li>
+              <li className="synonum" onClick={() => this.handleSyn('architecture')}>architecture</li>
+              <li className="synonum" onClick={() => this.handleSyn('food')}>food</li>
             </Fragment>}
         </ul>
       </Fragment>

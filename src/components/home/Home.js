@@ -20,22 +20,23 @@ class Home extends Component {
       currentImgId:'',
       createName:'',
       editMode: false,
+      searchTxt: this.props.match.params.query === undefined ? '' : this.props.match.params.query,
     };
-    const { initImgs } = this.props;
-    initImgs([])
   }
 
   componentDidMount() {
-    const { getImgsList,query,getRandomImgs, getSynonymList} = this.props;
-    const { page } = this.state;
+    const { getImgsList,query,getRandomImgs, getSynonymList,initImgs} = this.props;
+    const { page,searchTxt } = this.state;
     window.addEventListener('scroll', this.handleScroll);
 
-    if(this.props.match.params.query !== undefined) {
+    if(this.props.match.params.query !== undefined) { //依照關鍵字搜尋
+      initImgs([])
       query(this.props.match.params.query)
       getSynonymList(this.props.match.params.query)
       getImgsList(page, this.props.match.params.query);
-    } else {
+    } else { //隨機搜尋
       query('')
+      initImgs([])
       getRandomImgs(page)
     }
   }
@@ -44,21 +45,22 @@ class Home extends Component {
     window.removeEventListener('scroll', this.handleScroll);
   }
 
-  componentDidUpdate(prepProps,prevState) {
-    const { isLoadingGetImgs, totalPage, isLoadingRandomImgs, isLoadingSaveImg} = this.props;
-    const { page } = this.state;
+  componentDidUpdate(prevProps,prevState) {
+    const { isLoadingGetImgs, totalPage, isLoadingRandomImgs, isLoadingSaveImg,queryTxt} = this.props;
+    const { getImgsList,query,getRandomImgs, getSynonymList,initImgs} = this.props;
+    const { page,searchTxt } = this.state;
 
-    if (prepProps.isLoadingGetImgs === true && isLoadingGetImgs === false) {
+    if (prevProps.isLoadingGetImgs === true && isLoadingGetImgs === false) {
       this.setState({
         hasMore: !(page === totalPage || totalPage === 0),
       });
     }
-    if (prepProps.isLoadingRandomImgs === true && isLoadingRandomImgs === false) {
+    if (prevProps.isLoadingRandomImgs === true && isLoadingRandomImgs === false) {
       this.setState({
         hasMore: !(page === totalPage || totalPage === 0),
       });
     }
-    if (prepProps.isLoadingSaveImg === true && isLoadingSaveImg === false) {
+    if (prevProps.isLoadingSaveImg === true && isLoadingSaveImg === false) {
       this.setState({
         showSelector:false,
         createName: '',
@@ -66,28 +68,55 @@ class Home extends Component {
       })
       document.body.style.overflow = "visible"
     }
-  }
-
-  handleLoad = () => {
-    const { page } = this.state;
-    const { getImgsList, totalPage,queryTxt,getRandomImgs } = this.props;
-    this.setState((prevState) => ({
-      page: prevState.page + 1,
-      hasMore: !(prevState.page + 1 === totalPage),
-    }));
-    if(queryTxt === ''){
-      getRandomImgs(page + 1)
-    } else {
-      getImgsList(page + 1, queryTxt);
+    if (prevState.searchTxt !== searchTxt) {
+      initImgs([])
+      query(searchTxt)
+      getSynonymList(searchTxt)
+      getImgsList(page, searchTxt);
     }
   }
 
+  handleSearchTxt = (item) => {
+    this.setState({
+      searchTxt: item,
+    })
+  }
+  // handleLoad = () => {
+  //   const { page } = this.state;
+  //   const { getImgsList, totalPage,queryTxt,getRandomImgs } = this.props;
+  //   this.setState((prevState) => ({
+  //     page: prevState.page + 1,
+  //     hasMore: !(prevState.page + 1 === totalPage),
+  //   }));
+  //   if(queryTxt === ''){
+  //     getRandomImgs(page + 1)
+  //   } else {
+  //     getImgsList(page + 1, queryTxt);
+  //   }
+  // }
+
   handleScroll = e => {
+    
+    const bottomLength = document.body.clientHeight-document.documentElement.scrollTop;
+    console.log(bottomLength);
     const { showTopSearch } = this.props
     if(document.documentElement.scrollTop > 250) {
       showTopSearch(true);
     } else {
       showTopSearch(false);
+    }
+    if (bottomLength < 500) {
+      const { page } = this.state;
+      const { getImgsList, totalPage,queryTxt,getRandomImgs } = this.props;
+      this.setState((prevState) => ({
+        page: prevState.page + 1,
+        hasMore: !(prevState.page + 1 === totalPage),
+      }));
+      if(queryTxt === ''){
+        getRandomImgs(page + 1)
+      } else {
+        getImgsList(page + 1, queryTxt);
+      }
     }
   }
   handleHoverOver(id){
@@ -128,6 +157,7 @@ class Home extends Component {
   }
 
   render() {
+    
     const { page, hasMore,currentImgId,showSelector,showAddBtn,createName,editMode } = this.state;
     const { history, imgs, isLoadingGetImgs,query,queryTxt,getImgsList,initImgs, isLoadingRandomImgs,syn,isLoadingSynonym, getSynonymList, isAuthenticated,getSingleImg,singleImg} = this.props;
     const breakpointColumnsObj = {
@@ -142,7 +172,7 @@ class Home extends Component {
           getSingleImg={getSingleImg}  singleImg={singleImg} createName={createName} handleCreate={this.handleCreate} editMode={editMode} handleEditMode={this.handleEditMode}/>}
 
           <Search query={query} queryTxt={queryTxt} getImgsList={getImgsList} page={page} initImgs={initImgs} history={history} syn={syn} isLoadingSynonym={isLoadingSynonym} getSynonymList={getSynonymList}
-          onScroll={this.handleScroll}
+          onScroll={this.handleScroll} handleSearchTxt={this.handleSearchTxt}
           />
           {/* <p>hi! {isAuthenticated && firebase.auth().currentUser.displayName}</p> */}
           <ul>
@@ -153,7 +183,7 @@ class Home extends Component {
             >
               {(!isLoadingGetImgs || !isLoadingRandomImgs)
                 ? imgs.map((item, index) => {
-                  if (index < page * 9 && imgs[index]) {
+                  if (index < page * 31 && imgs[index]) {
                     return (
                       <div className="outter"                           
                       onMouseOver={() => this.handleHoverOver(imgs[index].id)}
@@ -173,7 +203,7 @@ class Home extends Component {
                 })
                 : <Loading />}
             </Masonry>
-            {hasMore ? <button type="submit" className="common_button mid_button" onClick={this.handleLoad}>Load More</button> : <div className="clearfix" />}
+            {/* {hasMore ? <Loading /> : <div className="clearfix" />} */}
             <div className="clearfix" />
           </ul>
         </div>

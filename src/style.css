@@ -17,6 +17,9 @@ input,textarea {
 	width:100%;
 	display:block 
 }
+input::placeholder{
+	color:#a0a0a0;
+}
 .clearfix{
 	clear: both;
 }
