@@ -3,18 +3,10 @@
 
 import React, { Component, Fragment }  from 'react';
 import './Search.css';
+import Loading from '../loading/Loading';
 
 
 class Search extends Component {
-  
-  // componentDidUpdate(prevProps,prevState) {
-  //   const {history,getImgsList,imgs,queryTxt,getSynonymList} = this.props;
-  //   if (prevProps.imgs !== [] && imgs === []) {
-  //     getImgsList(1, queryTxt);
-  //     getSynonymList(queryTxt)
-  //     history.push('/search/'+ queryTxt);
-  //   }
-  // }
 
   handleChange = (e) => {
     const {query} = this.props;
@@ -22,26 +14,54 @@ class Search extends Component {
   }
 
   handleKeyPress = (e) => {
-    const {history,getImgsList,page,queryTxt,initImgs,getSynonymList,handleSearchTxt} = this.props;
+    const {history,queryTxt,handleSearchTxt} = this.props;
     if(e.key === 'Enter') {
       handleSearchTxt(queryTxt)
       history.push('/search/'+ queryTxt);
     }
   }
 
-
   handleSyn(item) {
     const {query} = this.props;
     query(item)
-    const {history,getImgsList,page,initImgs,getSynonymList,handleSearchTxt} = this.props;
-
-      handleSearchTxt(item)
-      history.push('/search/'+ item);
+    const {history,handleSearchTxt} = this.props;
+    handleSearchTxt(item)
+    history.push('/search/'+ item);
   }
 
 
   render() {
-    const {queryTxt,syn,isLoadingSynonym} = this.props;
+    const {queryTxt,syn} = this.props
+    let status;
+    if (queryTxt !== '') {
+      if(syn === undefined){
+        status=''
+      } else {
+        status=(
+          syn.map((item, index) => {
+            if (index < 6 ) {
+              return (
+                <Fragment>
+                  <li className="synonum" onClick={() => this.handleSyn(item)}>{item}</li>
+                </Fragment>
+              );
+            }
+          })
+        )
+      }
+    } else {
+      status=(
+        <Fragment>
+          <li className="synonum" onClick={() => this.handleSyn('animal')}>animal</li>
+          <li className="synonum" onClick={() => this.handleSyn('texture')}>texture</li>
+          <li className="synonum" onClick={() => this.handleSyn('fashion')}>fashion</li>
+          <li className="synonum" onClick={() => this.handleSyn('nature')}>nature</li>
+          <li className="synonum" onClick={() => this.handleSyn('architecture')}>architecture</li>
+          <li className="synonum" onClick={() => this.handleSyn('food')}>food</li>
+        </Fragment>
+      )
+    }
+
     return (
       <Fragment>
         <div className="search_bar">
@@ -52,25 +72,7 @@ class Search extends Component {
           />
         </div>
         <ul className="syn_group">
-          {(!isLoadingSynonym && queryTxt !== '')
-            ? syn.map((item, index) => {
-              if (index < 6 ) {
-                return (
-                  <Fragment>
-                    <li className="synonum" onClick={() => this.handleSyn(item)}>{item}</li>
-                  </Fragment>
-                );
-              }
-            })
-            :       
-            <Fragment>
-              <li className="synonum" onClick={() => this.handleSyn('animal')}>animal</li>
-              <li className="synonum" onClick={() => this.handleSyn('texture')}>texture</li>
-              <li className="synonum" onClick={() => this.handleSyn('fashion')}>fashion</li>
-              <li className="synonum" onClick={() => this.handleSyn('nature')}>nature</li>
-              <li className="synonum" onClick={() => this.handleSyn('architecture')}>architecture</li>
-              <li className="synonum" onClick={() => this.handleSyn('food')}>food</li>
-            </Fragment>}
+        {status}
         </ul>
       </Fragment>
     )
@@ -78,3 +80,5 @@ class Search extends Component {
 };
 
 export default Search;
+
+

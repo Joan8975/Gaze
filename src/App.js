@@ -32,7 +32,7 @@ export class App extends Component {
         </div>
         <div>
           <Route exact path="/" render={() => <Home isAuthenticated={isAuthenticated}/>}/>
-          <Route path="/images/:imgId" render={() => <SinglePage />} />
+          <Route path="/images/:imgId" render={() => <SinglePage isAuthenticated={isAuthenticated}/>} />
           <Route path="/login" render={() => <Login isAuthenticated={isAuthenticated} 
           isLoggedIn={isLoggedIn}/>} />
           <Route path="/signup" render={() => <Signup isAuthenticated={isAuthenticated} 

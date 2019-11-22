@@ -20,9 +20,9 @@ input,textarea {
 input::placeholder{
 	color:#a0a0a0;
 }
-.clearfix{
+/* .clearfix{
 	clear: both;
-}
+} */
 .container{
 	max-width: 1200px;
 	margin: 90px auto 110px auto ;

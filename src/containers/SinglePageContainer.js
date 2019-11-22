@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch) => {
     initImgs: array => {
       dispatch(actions.initImgs(array));
     },
+    getImgsList: (page,query) => {
+      dispatch(actions.getImgsList(page,query));
+    },
   };
 };
 const mapStateToProps = (state) => {

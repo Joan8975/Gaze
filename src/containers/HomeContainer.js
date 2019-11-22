@@ -44,6 +44,7 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.posts.isAuthenticated,
     singleImg: state.posts.singleImg,
     isLoadingSaveImg: state.posts.isLoadingSaveImg,
+    isLoadingSingleImg: state.posts.isLoadingSingleImg,
   };
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeContainer));

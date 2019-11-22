@@ -26,7 +26,7 @@ class Home extends Component {
 
   componentDidMount() {
     const { getImgsList,query,getRandomImgs, getSynonymList,initImgs} = this.props;
-    const { page,searchTxt } = this.state;
+    const { page} = this.state;
     window.addEventListener('scroll', this.handleScroll);
 
     if(this.props.match.params.query !== undefined) { //依照關鍵字搜尋
@@ -46,8 +46,8 @@ class Home extends Component {
   }
 
   componentDidUpdate(prevProps,prevState) {
-    const { isLoadingGetImgs, totalPage, isLoadingRandomImgs, isLoadingSaveImg,queryTxt} = this.props;
-    const { getImgsList,query,getRandomImgs, getSynonymList,initImgs} = this.props;
+    const { isLoadingGetImgs, totalPage, isLoadingRandomImgs, isLoadingSaveImg} = this.props;
+    const { getImgsList,query, getSynonymList,initImgs} = this.props;
     const { page,searchTxt } = this.state;
 
     if (prevProps.isLoadingGetImgs === true && isLoadingGetImgs === false) {
@@ -71,7 +71,7 @@ class Home extends Component {
     if (prevState.searchTxt !== searchTxt) {
       initImgs([])
       query(searchTxt)
-      getSynonymList(searchTxt)
+      getSynonymList(searchTxt) //找同義詞
       getImgsList(page, searchTxt);
     }
   }
@@ -81,22 +81,8 @@ class Home extends Component {
       searchTxt: item,
     })
   }
-  // handleLoad = () => {
-  //   const { page } = this.state;
-  //   const { getImgsList, totalPage,queryTxt,getRandomImgs } = this.props;
-  //   this.setState((prevState) => ({
-  //     page: prevState.page + 1,
-  //     hasMore: !(prevState.page + 1 === totalPage),
-  //   }));
-  //   if(queryTxt === ''){
-  //     getRandomImgs(page + 1)
-  //   } else {
-  //     getImgsList(page + 1, queryTxt);
-  //   }
-  // }
 
   handleScroll = e => {
-    
     const bottomLength = document.body.clientHeight-document.documentElement.scrollTop;
     console.log(bottomLength);
     const { showTopSearch } = this.props
@@ -106,29 +92,36 @@ class Home extends Component {
       showTopSearch(false);
     }
     if (bottomLength < 500) {
-      const { page } = this.state;
-      const { getImgsList, totalPage,queryTxt,getRandomImgs } = this.props;
-      this.setState((prevState) => ({
-        page: prevState.page + 1,
-        hasMore: !(prevState.page + 1 === totalPage),
-      }));
-      if(queryTxt === ''){
-        getRandomImgs(page + 1)
-      } else {
-        getImgsList(page + 1, queryTxt);
+      const { page,hasMore } = this.state;
+      const { getImgsList,queryTxt,getRandomImgs } = this.props;
+      if(hasMore){
+        if(queryTxt === ''){
+          getRandomImgs(page + 1)
+          this.setState((prevState) => ({
+            page: prevState.page + 1,
+          }));
+        } else {
+          getImgsList(page + 1, queryTxt);
+          this.setState((prevState) => ({
+            page: prevState.page + 1,
+          }));
+        }
       }
     }
   }
+
   handleHoverOver(id){
     this.setState({
       showAddBtn: id,
     })
   }
+
   handleHoverOut = () => {
     this.setState({
       showAddBtn: ''
     })
   }
+
   handleSelector(id){
     this.setState({
       currentImgId: id,
@@ -137,6 +130,7 @@ class Home extends Component {
     document.body.style.overflow = "hidden"
     // alert('ok')
   }
+
   handleClose = () => {
     this.setState({
       showSelector:false,
@@ -145,11 +139,13 @@ class Home extends Component {
     })
     document.body.style.overflow = "visible"
   }
+
   handleCreate = (e) => {
     this.setState({
       createName: e.target.value
     })
   }
+
   handleEditMode = () => {
     this.setState({
       editMode: true,
@@ -158,8 +154,8 @@ class Home extends Component {
 
   render() {
     
-    const { page, hasMore,currentImgId,showSelector,showAddBtn,createName,editMode } = this.state;
-    const { history, imgs, isLoadingGetImgs,query,queryTxt,getImgsList,initImgs, isLoadingRandomImgs,syn,isLoadingSynonym, getSynonymList, isAuthenticated,getSingleImg,singleImg} = this.props;
+    const { page,hasMore,currentImgId,showSelector,showAddBtn,createName,editMode,defaultTag } = this.state;
+    const { history, imgs, isLoadingGetImgs,query,queryTxt,getImgsList,initImgs, isLoadingRandomImgs,syn,isLoadingSynonym, getSynonymList, isAuthenticated,getSingleImg,singleImg,totalPage} = this.props;
     const breakpointColumnsObj = {
       default: 3,
       1100: 2,
@@ -174,7 +170,6 @@ class Home extends Component {
           <Search query={query} queryTxt={queryTxt} getImgsList={getImgsList} page={page} initImgs={initImgs} history={history} syn={syn} isLoadingSynonym={isLoadingSynonym} getSynonymList={getSynonymList}
           onScroll={this.handleScroll} handleSearchTxt={this.handleSearchTxt}
           />
-          {/* <p>hi! {isAuthenticated && firebase.auth().currentUser.displayName}</p> */}
           <ul>
             <Masonry
               breakpointCols={breakpointColumnsObj}
@@ -183,7 +178,7 @@ class Home extends Component {
             >
               {(!isLoadingGetImgs || !isLoadingRandomImgs)
                 ? imgs.map((item, index) => {
-                  if (index < page * 31 && imgs[index]) {
+                  if (index > 1 && imgs[index]) {
                     return (
                       <div className="outter"                           
                       onMouseOver={() => this.handleHoverOver(imgs[index].id)}
@@ -201,10 +196,11 @@ class Home extends Component {
                     );
                   }
                 })
-                : <Loading />}
+              : <Loading />}
             </Masonry>
-            {/* {hasMore ? <Loading /> : <div className="clearfix" />} */}
-            <div className="clearfix" />
+            {(isLoadingGetImgs || isLoadingRandomImgs) && <Loading />}
+            {totalPage === 0 && <div>Keywords not found, try different </div>}
+            {page === totalPage && <div>no content</div>}
           </ul>
         </div>
       </Fragment>

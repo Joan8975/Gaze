@@ -85,7 +85,7 @@ function reducer(globalState = state, action) {
       return {
         ...globalState,
         isLoadingSynonym: false,
-        syn: action.payload.noun.syn,
+        syn: action.payload,
     };
     case actionTypes.SHOW_TOP_SEARCH:
       return {
