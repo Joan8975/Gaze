@@ -13,13 +13,11 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hasMore: false, // 是否存在下一頁
       page: 1, // 目前的頁碼
-      showAddBtn: '',
-      showSelector: false,
-      currentImgId:'',
-      createName:'',
-      editMode: false,
+      hoveredImg: '',
+      previewId:'',
+      // createName:'',
+      // editMode: false,
       searchTxt: this.props.match.params.query === undefined ? '' : this.props.match.params.query,
     };
   }
@@ -46,25 +44,12 @@ class Home extends Component {
   }
 
   componentDidUpdate(prevProps,prevState) {
-    const { isLoadingGetImgs, totalPage, isLoadingRandomImgs, isLoadingSaveImg} = this.props;
-    const { getImgsList,query, getSynonymList,initImgs} = this.props;
+    const { isLoadingSaveImg,getImgsList,query, getSynonymList,initImgs} = this.props;
     const { page,searchTxt } = this.state;
 
-    if (prevProps.isLoadingGetImgs === true && isLoadingGetImgs === false) {
-      this.setState({
-        hasMore: !(page === totalPage || totalPage === 0),
-      });
-    }
-    if (prevProps.isLoadingRandomImgs === true && isLoadingRandomImgs === false) {
-      this.setState({
-        hasMore: !(page === totalPage || totalPage === 0),
-      });
-    }
     if (prevProps.isLoadingSaveImg === true && isLoadingSaveImg === false) {
       this.setState({
         showSelector:false,
-        createName: '',
-        editMode: false,
       })
       document.body.style.overflow = "visible"
     }
@@ -83,18 +68,20 @@ class Home extends Component {
   }
 
   handleScroll = e => {
-    const bottomLength = document.body.clientHeight-document.documentElement.scrollTop;
-    console.log(bottomLength);
+    // topSearchBar
     const { showTopSearch } = this.props
     if(document.documentElement.scrollTop > 250) {
       showTopSearch(true);
     } else {
       showTopSearch(false);
     }
+    // 下拉加載
+    const bottomLength = document.body.clientHeight-document.documentElement.scrollTop;
+    console.log(bottomLength);
     if (bottomLength < 500) {
-      const { page,hasMore } = this.state;
-      const { getImgsList,queryTxt,getRandomImgs } = this.props;
-      if(hasMore){
+      const { page } = this.state;
+      const { getImgsList,queryTxt,getRandomImgs,totalPage } = this.props;
+      if(totalPage !== 0 && page !== totalPage){
         if(queryTxt === ''){
           getRandomImgs(page + 1)
           this.setState((prevState) => ({
@@ -112,19 +99,19 @@ class Home extends Component {
 
   handleHoverOver(id){
     this.setState({
-      showAddBtn: id,
+      hoveredImg: id,
     })
   }
 
   handleHoverOut = () => {
     this.setState({
-      showAddBtn: ''
+      hoveredImg: ''
     })
   }
 
   handleSelector(id){
     this.setState({
-      currentImgId: id,
+      previewId: id,
       showSelector: true,
     })
     document.body.style.overflow = "hidden"
@@ -134,28 +121,14 @@ class Home extends Component {
   handleClose = () => {
     this.setState({
       showSelector:false,
-      createName: '',
-      editMode: false,
     })
     document.body.style.overflow = "visible"
   }
 
-  handleCreate = (e) => {
-    this.setState({
-      createName: e.target.value
-    })
-  }
-
-  handleEditMode = () => {
-    this.setState({
-      editMode: true,
-    })
-  }
-
   render() {
     
-    const { page,hasMore,currentImgId,showSelector,showAddBtn,createName,editMode,defaultTag } = this.state;
-    const { history, imgs, isLoadingGetImgs,query,queryTxt,getImgsList,initImgs, isLoadingRandomImgs,syn,isLoadingSynonym, getSynonymList, isAuthenticated,getSingleImg,singleImg,totalPage} = this.props;
+    const { page,previewId,showSelector,hoveredImg } = this.state;
+    const { history, imgs, isLoadingGetImgs,query,queryTxt,getImgsList,initImgs, isLoadingRandomImgs,syn,isLoadingSynonym, getSynonymList, isAuthenticated,totalPage} = this.props;
     const breakpointColumnsObj = {
       default: 3,
       1100: 2,
@@ -164,8 +137,8 @@ class Home extends Component {
     return (
       <Fragment>
         <div className="container">
-          {showSelector && <Selector handleClose={this.handleClose} currentImgId={currentImgId}
-          getSingleImg={getSingleImg}  singleImg={singleImg} createName={createName} handleCreate={this.handleCreate} editMode={editMode} handleEditMode={this.handleEditMode}/>}
+          {showSelector && <Selector showSelector = {true}  previewId={previewId} 
+          handleClose={this.handleClose}/>}
 
           <Search query={query} queryTxt={queryTxt} getImgsList={getImgsList} page={page} initImgs={initImgs} history={history} syn={syn} isLoadingSynonym={isLoadingSynonym} getSynonymList={getSynonymList}
           onScroll={this.handleScroll} handleSearchTxt={this.handleSearchTxt}
@@ -183,12 +156,12 @@ class Home extends Component {
                       <div className="outter"                           
                       onMouseOver={() => this.handleHoverOver(imgs[index].id)}
                       onMouseOut={this.handleHoverOut}>
-                        <button className={showAddBtn === imgs[index].id? 'save_button':'hide_style'} 
+                        <button className={hoveredImg === imgs[index].id? 'save_button':'hide_style'} 
                         onClick={isAuthenticated ? () => this.handleSelector(imgs[index].id) : ()=> history.push('/login')}><i class="fas fa-plus"></i></button>
                         <Fade bottom duration={600} >
                           <li key={imgs[index].id} role="presentation" 
                           onClick={() => history.push(`/images/${imgs[index].id}`)}>
-                            <div className={showAddBtn === imgs[index].id? 'hover_layer':'hide_style'}></div>
+                            <div className={hoveredImg === imgs[index].id? 'hover_layer':'hide_style'}></div>
                             <img src={imgs[index].urls.regular} alt="" />
                           </li>
                         </Fade>
@@ -199,8 +172,8 @@ class Home extends Component {
               : <Loading />}
             </Masonry>
             {(isLoadingGetImgs || isLoadingRandomImgs) && <Loading />}
-            {totalPage === 0 && <div>Keywords not found, try different </div>}
-            {page === totalPage && <div>no content</div>}
+            {totalPage === 0 && <div className="empt_notice">No results found, please try different keyword.</div>}
+            {page === totalPage && <div className="empt_notice">{`${page} / ${totalPage}`}</div>}
           </ul>
         </div>
       </Fragment>

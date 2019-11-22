@@ -94,7 +94,12 @@ export const getCollectionSaves = (email,collection) => {
     payload: WebAPI.collectionSaves(email,collection),
   };
 }
-
+export const getPreviewImg = (imgId) => {
+  return {
+    type: actionTypes.GET_PREVIEW_IMG,
+    payload: WebAPI.singleImg(imgId),
+  };
+};
 
 
 

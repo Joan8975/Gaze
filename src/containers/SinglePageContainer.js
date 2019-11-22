@@ -26,6 +26,9 @@ const mapStateToProps = (state) => {
     imgs: state.posts.imgs,
     singleImg: state.posts.singleImg,
     isLoadingSingleImg: state.posts.isLoadingSingleImg,
+    isLoadingGetImgs: state.posts.isLoadingGetImgs,
+    isLoadingSaveImg: state.posts.isLoadingSaveImg,
+    totalPage: state.posts.totalPage,
   };
 };
 export default withRouter((connect(mapStateToProps, mapDispatchToProps)(SinglePageContainer)));

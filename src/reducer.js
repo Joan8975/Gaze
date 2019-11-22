@@ -13,7 +13,7 @@ const state = {
   isLoadingSynonym: false,
   syn:[],
   topSearch: false,
-  singleImg: '',
+  singleImg: {},
   isLoadingSingleImg: false,
   isLoadingLogIn: false,
   response: '',
@@ -28,6 +28,8 @@ const state = {
   deleteSaveMsg:'',
   isLoadingCollectionSaves: false,
   collectionSaves:[],
+  isLoadingPreviewImg: false,
+  previewImg: {},
 
 };
 
@@ -161,6 +163,17 @@ function reducer(globalState = state, action) {
       ...globalState,
       isLoadingCollectionSaves: false,
       collectionSaves: action.payload,
+    };
+    case actionTypes.GET_PREVIEW_IMG_PENDING:
+      return {
+        ...globalState,
+        isLoadingPreviewImg: true,
+    };
+    case actionTypes.GET_PREVIEW_IMG_FULFILLED:
+      return {
+        ...globalState,
+        isLoadingPreviewImg: false,
+        previewImg: action.payload,
     };
 
     

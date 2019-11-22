@@ -12,60 +12,100 @@ class SinglePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hasMore: false, // 是否存在下一頁
       page: 1, // 目前的頁碼
-      showAddBtn: '',
-      showSelector: false,
-      urlImgId: this.props.match.params.imgId,
+      hoveredImg: '',
+      previewId:'',
+      currentImgId: this.props.match.params.imgId,
     };
     const {initImgs } = this.props;
     initImgs([]);
   }
 
   componentDidMount() {
-    const { urlImgId } = this.state;
+    const { currentImgId } = this.state;
     const { getSingleImg } = this.props;
-    getSingleImg(urlImgId );
+    getSingleImg(currentImgId );
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
   componentDidUpdate(prevProps,prevState) {
-    const { urlImgId } = this.state;
-    const { isLoadingSingleImg,getImgsList,singleImg,getSingleImg } = this.props;
+    const { currentImgId } = this.state;
+    const { isLoadingSingleImg,getImgsList,singleImg,getSingleImg,isLoadingSaveImg } = this.props;
     if (prevProps.isLoadingSingleImg === true && isLoadingSingleImg === false) {
       getImgsList(1,singleImg.tags[0].title)
     }
-    if (prevState.urlImgId !== urlImgId) {
-      getSingleImg(urlImgId );
+    if (prevState.currentImgId !== currentImgId) {
+      getSingleImg(currentImgId );
+    }
+    if (prevProps.isLoadingSaveImg === true && isLoadingSaveImg === false) {
+      this.setState({
+        showSelector:false,
+      })
+      document.body.style.overflow = "visible"
+    }
+  }
+
+  handleScroll = e => {
+    // 下拉加載
+    const bottomLength = document.body.clientHeight-document.documentElement.scrollTop;
+    console.log(bottomLength);
+    if (bottomLength < 500) {
+      const { page } = this.state;
+      const { getImgsList,singleImg,totalPage} = this.props;
+      if(totalPage !== 0 && page !== totalPage){
+        getImgsList(page + 1, singleImg.tags[0].title)
+        this.setState((prevState) => ({
+          page: prevState.page + 1,
+        }))
+      }
     }
   }
 
   handleHoverOver(id){
     this.setState({
-      showAddBtn: id,
+      hoveredImg: id,
     })
   }
 
   handleHoverOut = () => {
     this.setState({
-      showAddBtn: ''
+      hoveredImg: ''
     })
   }
-
 
   handleSumbit(id) {
     const {history} =  this.props
     this.setState({
-      urlImgId: id,
+      currentImgId: id,
     })
-    
     history.push(`/images/${id}`)
   }
 
+  handleSelector(id){
+    this.setState({
+      previewId: id,
+      showSelector: true,
+    })
+    document.body.style.overflow = "hidden"
+  }
+
+  handleClose = () => {
+    this.setState({
+      showSelector:false,
+    })
+    document.body.style.overflow = "visible"
+  }
+
+
 
   render() {
-    const { page,hasMore,currentImgId,showSelector,showAddBtn,createName,editMode} = this.state;
+    const { page,hasMore,previewId,showSelector,hoveredImg,createName,editMode} = this.state;
 
-    const { singleImg, isLoadingSingleImg,history,imgs,isLoadingGetImgs,isAuthenticated }= this.props;
+    const { singleImg, isLoadingSingleImg,history,imgs,isLoadingGetImgs,isAuthenticated,totalPage }= this.props;
     const breakpointColumnsObj = {
       default: 4,
       1100: 2,
@@ -74,13 +114,15 @@ class SinglePage extends Component {
     
     return (
       <Fragment>
-        {!isLoadingSingleImg && singleImg
+        {showSelector && <Selector showSelector = {true}  previewId={previewId} 
+        handleClose={this.handleClose}/>}
+        {!isLoadingSingleImg && singleImg.urls
           ? 
           <div className="container">
             <div className="single_container">
               <img className="single_img" src={singleImg.urls.regular} alt=""/>
               <div className="single_info">
-                <button className='save_button_dark'><i class="fas fa-plus"></i></button>
+                <button className='save_button_dark' onClick={isAuthenticated ? () => this.handleSelector(singleImg.id) : ()=> history.push('/login')}><i class="fas fa-plus"></i></button>
                 <button className='download_button'>Download</button>
                 <div class="tag_group">
                   <p className="subtitle">Uploaded by</p>
@@ -118,10 +160,13 @@ class SinglePage extends Component {
                             onMouseOver={() => this.handleHoverOver(imgs[index].id)}
                             onMouseOut={this.handleHoverOut}
                           >
+                            <button className={hoveredImg === imgs[index].id? 'save_button':'hide_style'} 
+                            onClick={isAuthenticated ? () => this.handleSelector(imgs[index].id) : ()=> history.push('/login')}><i class="fas fa-plus"></i></button>
+
                             <Fade bottom duration={600} >
                               <li key={imgs[index].id} role="presentation" 
                               onClick={() => this.handleSumbit(imgs[index].id)}>
-                                <div className={showAddBtn === imgs[index].id? 'hover_layer':'hide_style'}></div>
+                                <div className={hoveredImg === imgs[index].id? 'hover_layer':'hide_style'}></div>
                                 <img src={imgs[index].urls.regular} alt="" />
                               </li>
                             </Fade>
@@ -131,10 +176,9 @@ class SinglePage extends Component {
                     })
                     : <Loading />}
                 </Masonry>
-                {/* {isLoadingGetImgs || isLoadingRandomImgs ? <Loading /> : <div className="clearfix" />}
-                {totalPage === 0 && <div>Keywords not found, try different </div>}
-                {page === totalPage && <div>no content</div>} */}
-                <div className="clearfix" />
+                {isLoadingGetImgs && <Loading />}
+                {totalPage === 0 && <div className="empt_notice">No results found, please try different keyword.</div>}
+                {page === totalPage && <div className="empt_notice">{`${page} / ${totalPage}`}</div>}
               </ul>
             </div>
           </div>

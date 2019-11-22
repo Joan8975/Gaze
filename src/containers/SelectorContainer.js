@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch) => {
     saveNewImg: (newSave) => {
       dispatch(actions.saveNewImg(newSave));
     },
+    getPreviewImg: (imgId) => {
+      dispatch(actions.getPreviewImg(imgId));
+    },
 
   };
 };
@@ -24,6 +27,8 @@ const mapStateToProps = (state) => {
     allCollections: state.posts.allCollections,
     isLoadingAllCollections: state.posts.isLoadingAllCollections,
     isLoadingSaveImg: state.posts.isLoadingSaveImg,
+    isLoadingPreviewImg: state.posts.isLoadingPreviewImg,
+    previewImg: state.posts.previewImg,
 
   };
 };

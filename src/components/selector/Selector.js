@@ -7,31 +7,41 @@ import firebase from 'firebase';
 import Loading from '../loading/Loading';
 
 export class Selector extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      createName:'',
+      editMode: false,
+    };
+  }
+  
 
   componentDidMount(){
-    const { currentImgId,getSingleImg,getAllCollections} = this.props;
-    getSingleImg(currentImgId)
+    const { previewId,getPreviewImg,getAllCollections} = this.props;
+    getPreviewImg(previewId)
     getAllCollections(firebase.auth().currentUser.email)
+
   }
 
 
   handleSave(collection){
-    const { saveNewImg, currentImgId, singleImg } = this.props;
+    const { saveNewImg, previewId, previewImg } = this.props;
     const newSave = { 
       email: firebase.auth().currentUser.email,
-      imgId: currentImgId,
-      content: singleImg.urls.regular,
+      imgId: previewId,
+      content: previewImg.urls.regular,
       collection,
     }
     saveNewImg(newSave)
   }
 
   handleNewSave = () => {
-    const { saveNewImg, currentImgId, singleImg,createName } = this.props;
+    const { createName } = this.state;
+    const { saveNewImg, previewId, previewImg } = this.props;
     const newSave = { 
       email: firebase.auth().currentUser.email,
-      imgId: currentImgId,
-      content: singleImg.urls.regular,
+      imgId: previewId,
+      content: previewImg.urls.regular,
       collection: createName,
     }
     if (createName !== '') {
@@ -39,22 +49,35 @@ export class Selector extends Component {
     }
   }
 
+  handleCreate = (e) => {
+    this.setState({
+      createName: e.target.value
+    })
+  }
+
+  handleEditMode = () => {
+    this.setState({
+      editMode: true,
+    })
+  }
+
   render() {
-    const { handleClose,singleImg,createName,handleCreate,handleEditMode,editMode, isLoadingAllCollections,allCollections} = this.props;
+    const { handleClose,previewImg,allCollections} = this.props;
+    const { createName,editMode } = this.state;
 
     const editCollection = (
       <div className="create_wrapper">
-        <input className="add_input" placeholder="Create a collection" value={createName} onChange={handleCreate}/>
+        <input className="add_input" placeholder="Create a collection" value={createName} onChange={this.handleCreate}/>
         <button type="submit" className="submit_add" onClick={this.handleNewSave}><i class="fas fa-check"></i></button>
       </div>
     )
     return (
     <Fragment>
     	<div className="selector_container">
-    	  {singleImg && <img className="preview_img_l" src={singleImg.urls.regular} alt="" /> }
+    	  {previewImg.urls && <img className="preview_img_l" src={previewImg.urls.regular} alt="" /> }
     	  <div class="edit_collect">
     	    <div className="selector_title">Save to Collection</div>
-            {!editMode? <button className="add_button" onClick={handleEditMode}>+ Create a new collection</button>:editCollection}
+            {!editMode? <button className="add_button" onClick={this.handleEditMode}>+ Create a new collection</button>:editCollection}
     	    <div className="all_collection">
             <div className="input_title">All Collections</div>
             <div className="item_group_s">
