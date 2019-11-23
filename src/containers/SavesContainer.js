@@ -18,6 +18,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     deleteSingleSave: (deleteSave) => {
       dispatch(actions.deleteSingleSave(deleteSave));
+    },
+    showTopSearch: (boolean) => {
+      dispatch(actions.showTopSearch(boolean));
+    },
+    isLoggedIn: (boolean) => {
+      dispatch(actions.checkLogin(boolean))
     }
 
   };

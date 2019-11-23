@@ -7,6 +7,8 @@ import Loading from '../loading/Loading';
 import Masonry from 'react-masonry-css'
 import Fade from 'react-reveal/Fade';
 import Selector from '../../containers/SelectorContainer'
+import InfiniteScroll from 'react-infinite-scroller';
+
 
 
 class Home extends Component {
@@ -23,9 +25,11 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    const { getImgsList,query,getRandomImgs, getSynonymList,initImgs} = this.props;
+    const { getImgsList,query,getRandomImgs, getSynonymList,initImgs,showTopSearch} = this.props;
     const { page} = this.state;
     window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('scroll', this.handleLoandMore);
+    showTopSearch(false);
 
     if(this.props.match.params.query !== undefined) { //依照關鍵字搜尋
       initImgs([])
@@ -41,6 +45,7 @@ class Home extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('scroll', this.handleLoandMore);
   }
 
   componentDidUpdate(prevProps,prevState) {
@@ -67,32 +72,62 @@ class Home extends Component {
     })
   }
 
-  handleScroll = e => {
+  handleScroll = () => {
     // topSearchBar
     const { showTopSearch } = this.props
-    if(document.documentElement.scrollTop > 250) {
+    if( document.documentElement.scrollTop > 250) {
       showTopSearch(true);
     } else {
       showTopSearch(false);
     }
+
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    const scrollHeight = document.documentElement.scrollHeight;
+    console.log('scrollTop='+scrollTop,'scrollHeight='+scrollHeight,'clientHeight='+clientHeight);
+    console.log(scrollHeight-clientHeight);
+
+    
     // 下拉加載
-    const bottomLength = document.body.clientHeight-document.documentElement.scrollTop;
-    console.log(bottomLength);
-    if (bottomLength < 500) {
+    // const bottomLength = document.body.clientHeight-document.documentElement.scrollTop;
+    // console.log(bottomLength);
+    if (scrollHeight-clientHeight === scrollTop) {
       const { page } = this.state;
-      const { getImgsList,queryTxt,getRandomImgs,totalPage } = this.props;
+      const { getImgsList,queryTxt,getRandomImgs,totalPage,isLoadingRandomImgs,isLoadingGetImgs } = this.props;
       if(totalPage !== 0 && page !== totalPage){
         if(queryTxt === ''){
-          getRandomImgs(page + 1)
-          this.setState((prevState) => ({
-            page: prevState.page + 1,
-          }));
+          if(!isLoadingRandomImgs){
+            getRandomImgs(page + 1)
+            this.setState((prevState) => ({
+              page: prevState.page + 1,
+            }));
+          }
         } else {
-          getImgsList(page + 1, queryTxt);
-          this.setState((prevState) => ({
-            page: prevState.page + 1,
-          }));
+          if(!isLoadingGetImgs){
+            getImgsList(page + 1, queryTxt);
+            this.setState((prevState) => ({
+              page: prevState.page + 1,
+            }));
+          }
         }
+      }
+    }
+  }
+
+  fetchImages = () => {
+    const { page } = this.state;
+    const { getImgsList,queryTxt,getRandomImgs,totalPage } = this.props;
+    if(totalPage !== 0 && page !== totalPage){
+      if(queryTxt === ''){
+        getRandomImgs(1)
+        // this.setState((prevState) => ({
+        //   page: prevState.page + 1,
+        // }));
+      } else {
+        getImgsList(page + 1, queryTxt);
+        // this.setState((prevState) => ({
+        //   page: prevState.page + 1,
+        // }));
       }
     }
   }
@@ -136,12 +171,12 @@ class Home extends Component {
     };
     return (
       <Fragment>
-        <div className="container">
+        <div className="container" >
           {showSelector && <Selector showSelector = {true}  previewId={previewId} 
           handleClose={this.handleClose}/>}
 
           <Search query={query} queryTxt={queryTxt} getImgsList={getImgsList} page={page} initImgs={initImgs} history={history} syn={syn} isLoadingSynonym={isLoadingSynonym} getSynonymList={getSynonymList}
-          onScroll={this.handleScroll} handleSearchTxt={this.handleSearchTxt}
+          handleSearchTxt={this.handleSearchTxt}
           />
           <ul>
             <Masonry
@@ -150,8 +185,8 @@ class Home extends Component {
               columnClassName="my-masonry-grid_column"
             >
               {(!isLoadingGetImgs || !isLoadingRandomImgs)
-                ? imgs.map((item, index) => {
-                  if (index > 1 && imgs[index]) {
+                && imgs.map((item, index) => {
+                  if (imgs[index]) {
                     return (
                       <div className="outter"                           
                       onMouseOver={() => this.handleHoverOver(imgs[index].id)}
@@ -169,9 +204,9 @@ class Home extends Component {
                     );
                   }
                 })
-              : <Loading />}
+              }
             </Masonry>
-            {(isLoadingGetImgs || isLoadingRandomImgs) && <Loading />}
+            {/* {(isLoadingGetImgs || isLoadingRandomImgs) && <Loading />} */}
             {totalPage === 0 && <div className="empt_notice">No results found, please try different keyword.</div>}
             {page === totalPage && <div className="empt_notice">{`${page} / ${totalPage}`}</div>}
           </ul>

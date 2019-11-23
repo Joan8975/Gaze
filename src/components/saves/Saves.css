@@ -8,7 +8,16 @@
 .username{
 	font-size: 38px;
 	color:#4a4a4a;
-	padding: 20px 0;
+	/* padding: 20px 0; */
+	height: 90px;
+}
+.username::before{
+	content:'';
+	height: 100%;
+	width: 10px;
+	display: inline-block;
+	vertical-align: middle;
+	/* background-color: pink; */
 }
 .profile_subtitle{
 	font-size: 14px;
@@ -76,4 +85,21 @@
 	height: 100%;
 	object-fit: cover;
 	z-index: -2;
+}
+.logout_button{
+	margin-left: 30px;
+	padding: 8px;
+	border-radius: 5px;
+	border: 1px solid #e0e0e0;
+	color: #a0a0a0;
+	/* background-color: #f3f3f3; */
+	color: #a0a0a0;
+	display: inline-block;
+	font-size: 16px;
+	vertical-align: middle;
+	cursor: pointer;
+	/* font-weight: bold; */
+}
+.logout_button:hover{
+	border: 1px solid #aaaaaa;
 }

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-children-prop */
 /* eslint-disable react/jsx-boolean-value */
 
-import React, { Component }  from 'react';
+import React, { Component,Fragment }  from 'react';
 import './Nav.css';
 import { Route, Link } from 'react-router-dom';
 import firebase from 'firebase';
@@ -33,21 +33,21 @@ class Nav extends Component {
     }
   }
 
-  handleLogout = () => {
-    this.props.isLoggedIn(false);
-    firebase.auth().signOut()
-  }
   
-  componentDidUpdate(prepProps,prevState) {
-    const { isLoadingSaveImg,isLoadingDeleteSave } = this.props;
-    if (prepProps.isLoadingSaveImg === false && isLoadingSaveImg === true) {
-      let myColor = { background: '#0E1717', text: "#FFFFFF" };
+  componentDidUpdate(prevProps,prevState) {
+    const { isLoadingSaveImg,isLoadingDeleteSave} = this.props;
+    if (prevProps.isLoadingSaveImg === false && isLoadingSaveImg === true) {
+      let myColor = { 
+        background: "#244091", 
+        text: "#FFFFFF",
+       };
       notify.show("Save successfully!", "custom", 5000, myColor);
     }
-    if (prepProps.isLoadingDeleteSave === false && isLoadingDeleteSave === true) {
+    if (prevProps.isLoadingDeleteSave === false && isLoadingDeleteSave === true) {
       let myColor = { background: '#0E1717', text: "#FFFFFF" };
       notify.show("Delete successfully!", "custom", 5000, myColor);
     }
+
   }
 
   render() {
@@ -55,8 +55,8 @@ class Nav extends Component {
 
     const userLinks = (
       <nav>
+        <MenuLink activeOnlyWhenExact={true} to="/" label="Home" updateNav={updateNav} className="tab"/>
         <MenuLink to="/saves/photos" label="My Board" updateNav={updateNav} className="tab"/>
-        <button className="tab" onClick={this.handleLogout}>Logout</button>
       </nav>
     )
     const guestLinks = (
@@ -68,19 +68,22 @@ class Nav extends Component {
 
 
     return(
-      <div>
-      <Notifications />
-      <MenuLink activeOnlyWhenExact={true} to="/" label="Gaze" updateNav={updateNav} className="tab_home"/>
-      {topSearch && <div hidden className="top_search">    
-        <input type="text" className="search_txt" name="query"          
-          value={queryTxt}
-          onChange={this.handleChange}
-          onKeyPress={this.handleKeyPress}
-          />
-        <i className="fas fa-search"></i>
-      </div>}
-      { isAuthenticated ? userLinks : guestLinks}
-    </div>
+      <Fragment>
+        <Notifications />
+        <div className="nav_bar">
+          <MenuLink activeOnlyWhenExact={true} to="/" label="Gaze" updateNav={updateNav} className="tab_home"/>
+          {topSearch && 
+          <div hidden className="top_search">    
+            <input type="text" className="search_txt" name="query"          
+              value={queryTxt}
+              onChange={this.handleChange}
+              onKeyPress={this.handleKeyPress}
+              />
+            <i className="fas fa-search"></i>
+          </div>}
+          { isAuthenticated ? userLinks : guestLinks}
+        </div>
+      </Fragment>
     )
   }
 }

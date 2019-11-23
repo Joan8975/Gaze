@@ -15,7 +15,7 @@ export class App extends Component {
     const { isLoggedIn } = this.props;
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log("user",user);
+        // console.log("user",user);
         isLoggedIn(true);
       } else {
         console.log('No user is signed in.');
@@ -23,13 +23,11 @@ export class App extends Component {
     });
   }
   render() {
-    const { isAuthenticated, isLoggedIn } = this.props;
+    const { isAuthenticated, isLoggedIn,topSearch} = this.props;
     return (
       <Router>
       <div>
-        <div className="nav_bar">
-          <Nav isAuthenticated={isAuthenticated} isLoggedIn={isLoggedIn}/>
-        </div>
+        <Nav isAuthenticated={isAuthenticated} isLoggedIn={isLoggedIn}/>
         <div>
           <Route exact path="/" render={() => <Home isAuthenticated={isAuthenticated}/>}/>
           <Route path="/images/:imgId" render={() => <SinglePage isAuthenticated={isAuthenticated}/>} />
@@ -38,9 +36,9 @@ export class App extends Component {
           <Route path="/signup" render={() => <Signup isAuthenticated={isAuthenticated} 
           isLoggedIn={isLoggedIn}/>}/>
           <Route path="/search/:query" render={() => <Home isAuthenticated={isAuthenticated}/>} />
-          <Route path="/saves/photos" render={() => <Saves photoTab/>} />
-          <Route path="/saves/collections" render={() => <Saves/>} />
-          <Route path="/collections/:collectionName" render={() => <Collections/>} />
+          <Route path="/saves/photos" render={() => <Saves photoTab  topSearch/>} />
+          <Route path="/saves/collections" render={() => <Saves/>} topSearch/>
+          <Route path="/collections/:collectionName" render={() => <Collections topSearch/>} />
         </div>
       </div>
     </Router>

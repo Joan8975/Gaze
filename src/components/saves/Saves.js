@@ -3,7 +3,7 @@ import React, { Component,Fragment } from 'react'
 import './Saves.css';
 import Masonry from 'react-masonry-css'
 import firebase from 'firebase';
-import Loading from '../loading/Loading';
+
 
 
 export class Saves extends Component {
@@ -17,26 +17,27 @@ export class Saves extends Component {
   }
   //沒刷新跑這邊，每一次進來都會做
   componentDidMount() {
-    const { isAuthenticated, getAllSaves,getAllCollections } = this.props;
+    const { isAuthenticated, getAllSaves,getAllCollections,showTopSearch } = this.props;
     if(isAuthenticated) {
       getAllSaves(firebase.auth().currentUser.email)
       getAllCollections(firebase.auth().currentUser.email)
+      showTopSearch(true);
     }
   }
   // 有刷新跑這邊，isAuthenticated state 有改變才做
-  componentDidUpdate(prepProps,prevState) {
+  componentDidUpdate(prevProps,prevState) {
     const { history,isAuthenticated,getAllSaves,getAllCollections,isLoadingDeleteSave } = this.props;
-    if (prepProps.isAuthenticated === false && isAuthenticated === true) {
+    if (prevProps.isAuthenticated === false && isAuthenticated === true) {
       getAllSaves(firebase.auth().currentUser.email)
       getAllCollections(firebase.auth().currentUser.email)
     }
-    if (prepProps.isAuthenticated === true && isAuthenticated === false) {
+    if (prevProps.isAuthenticated === true && isAuthenticated === false) {
       history.push('/')
     }
     // 先顯示已刪除通知再刷新
     this.timer = setTimeout(
       () => {
-        if (prepProps.isLoadingDeleteSave === false && isLoadingDeleteSave === true) {
+        if (prevProps.isLoadingDeleteSave === false && isLoadingDeleteSave === true) {
           window.location.reload();
         }
       },
@@ -66,19 +67,20 @@ export class Saves extends Component {
     deleteSingleSave(deleteSave)
   }
 
+  handleLogout = () => {
+    this.props.isLoggedIn(false);
+    firebase.auth().signOut()
+  }
+
 
   render() {
-    const { history,isAuthenticated,allSaves,isLoadingAllCollections,allCollections}=this.props;
+    const { history,isAuthenticated,allSaves,allCollections}=this.props;
     const { photoTab,showDeleteBtn } = this.state;
     const breakpointColumnsObj = {
       default: 3,
       1100: 2,
       700: 1
     };
-    console.log('savemsg='+allSaves.message);
-    console.log('collectionmsg='+allCollections.message);
-    
-
     const photos = (
     <Masonry
       breakpointCols={breakpointColumnsObj}
@@ -94,7 +96,7 @@ export class Saves extends Component {
                 <button className={showDeleteBtn === allSaves[index].id? 'save_button':'hide_style'}
                 onClick={() => this.handleDelete(allSaves[index].imgId,allSaves[index].collection)} 
                 ><i className="fas fa-trash-alt"></i></button>
-                <li key={allSaves[index].imgId} role="presentation" >
+                <li key={allSaves[index].imgId} role="presentation" onClick={() => history.push(`/images/${allSaves[index].imgId}`)} >
                   <div className="preview">
                     <div className={showDeleteBtn === allSaves[index].id ? 'hover_layer':'hide_style'}></div>
                     <img src={allSaves[index].content} alt="" />
@@ -127,7 +129,9 @@ export class Saves extends Component {
     return (
       <div className="container">
         <div className="profile">
-          <div className="username">{isAuthenticated && firebase.auth().currentUser.displayName}</div>
+          <div className="username">{isAuthenticated && firebase.auth().currentUser.displayName}
+            <button className="logout_button" onClick={this.handleLogout}><i class="fas fa-sign-out-alt"></i>Logout</button>
+          </div>
           <div className="profile_subtitle">Photos {allSaves.message !== "no content" ? allSaves.length : 0} | Collections {allSaves.message !== "no content" ? allCollections.length : 0}</div>
         </div>
         <div className="tab_bar">

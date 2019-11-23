@@ -75,7 +75,7 @@ export class Collections extends Component {
   }
 
   render() {
-    const { isAuthenticated,collectionSaves } = this.props;
+    const { isAuthenticated,collectionSaves,history } = this.props;
     const { currentCollection,showDeleteBtn } = this.state;
     const breakpointColumnsObj = {
       default: 3,
@@ -104,7 +104,7 @@ export class Collections extends Component {
                     <button className={showDeleteBtn === collectionSaves[index].id? 'save_button':'hide_style'}
                     onClick={() => this.handleDelete(collectionSaves[index].imgId,currentCollection)} 
                     ><i className="fas fa-trash-alt"></i></button>
-                    <li key={collectionSaves[index].imgId} role="presentation" >
+                    <li key={collectionSaves[index].imgId} role="presentation" onClick={() => history.push(`/images/${collectionSaves[index].imgId}`)}>
                       <div className="preview">
                         <div className={showDeleteBtn === collectionSaves[index].id ? 'hover_layer':'hide_style'}></div>
                         <img src={collectionSaves[index].content} alt="" />

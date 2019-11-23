@@ -49,21 +49,21 @@ class SinglePage extends Component {
     }
   }
 
-  handleScroll = e => {
-    // 下拉加載
-    const bottomLength = document.body.clientHeight-document.documentElement.scrollTop;
-    console.log(bottomLength);
-    if (bottomLength < 500) {
-      const { page } = this.state;
-      const { getImgsList,singleImg,totalPage} = this.props;
-      if(totalPage !== 0 && page !== totalPage){
-        getImgsList(page + 1, singleImg.tags[0].title)
-        this.setState((prevState) => ({
-          page: prevState.page + 1,
-        }))
-      }
-    }
-  }
+  // handleScroll = e => {
+  //   // 下拉加載
+  //   const bottomLength = document.body.clientHeight-document.documentElement.scrollTop;
+  //   console.log(bottomLength);
+  //   if (bottomLength < 500) {
+  //     const { page } = this.state;
+  //     const { getImgsList,singleImg,totalPage} = this.props;
+  //     if(totalPage !== 0 && page !== totalPage){
+  //       getImgsList(page + 1, singleImg.tags[0].title)
+  //       this.setState((prevState) => ({
+  //         page: prevState.page + 1,
+  //       }))
+  //     }
+  //   }
+  // }
 
   handleHoverOver(id){
     this.setState({

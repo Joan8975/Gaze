@@ -12,7 +12,7 @@ const state = {
   queryTxt: '',
   isLoadingSynonym: false,
   syn:[],
-  topSearch: false,
+  topSearch: true,
   singleImg: {},
   isLoadingSingleImg: false,
   isLoadingLogIn: false,
