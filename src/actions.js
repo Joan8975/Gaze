@@ -100,6 +100,12 @@ export const getPreviewImg = (imgId) => {
     payload: WebAPI.singleImg(imgId),
   };
 };
+export const deleteSingleCollection = (deleteCollection) => {
+  return {
+    type: actionTypes.DELETE_COLLECTION,
+    payload: WebAPI.deleteCollection(deleteCollection),
+  };
+}
 
 
 

@@ -45,7 +45,13 @@ export const deleteSave = (deleteSave) => fetch('http://localhost:8080/gaze/api/
 
 export const collectionSaves = (email,collection) => fetch(`http://localhost:8080/gaze/api/collection.php?email=${email}&collection=${collection}`).then(res => res.json())
 
-
+export const deleteCollection = (deleteCollection) => fetch('http://localhost:8080/gaze/api/collection.php',{
+  method: 'DELETE',
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(deleteCollection),
+  }).then(res => res.json())
 
 
 

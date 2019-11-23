@@ -35,7 +35,7 @@ class Nav extends Component {
 
   
   componentDidUpdate(prevProps,prevState) {
-    const { isLoadingSaveImg,isLoadingDeleteSave} = this.props;
+    const { isLoadingSaveImg,isLoadingDeleteSave,isLoadingDeleteCollection} = this.props;
     if (prevProps.isLoadingSaveImg === false && isLoadingSaveImg === true) {
       let myColor = { 
         background: "#244091", 
@@ -44,6 +44,10 @@ class Nav extends Component {
       notify.show("Save successfully!", "custom", 5000, myColor);
     }
     if (prevProps.isLoadingDeleteSave === false && isLoadingDeleteSave === true) {
+      let myColor = { background: '#0E1717', text: "#FFFFFF" };
+      notify.show("Delete successfully!", "custom", 5000, myColor);
+    }
+    if (prevProps.isLoadingDeleteCollection === false && isLoadingDeleteCollection === true) {
       let myColor = { background: '#0E1717', text: "#FFFFFF" };
       notify.show("Delete successfully!", "custom", 5000, myColor);
     }

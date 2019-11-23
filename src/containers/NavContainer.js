@@ -37,6 +37,7 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.posts.isAuthenticated,
     isLoadingSaveImg: state.posts.isLoadingSaveImg,
     isLoadingDeleteSave: state.posts.isLoadingDeleteSave,
+    isLoadingDeleteCollection: state.posts.isLoadingDeleteCollection,
   };
 };
 

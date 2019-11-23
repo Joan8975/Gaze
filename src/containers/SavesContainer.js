@@ -24,7 +24,10 @@ const mapDispatchToProps = (dispatch) => {
     },
     isLoggedIn: (boolean) => {
       dispatch(actions.checkLogin(boolean))
-    }
+    },
+    deleteSingleCollection: (deleteCollection) => {
+      dispatch(actions.deleteSingleCollection(deleteCollection));
+    },
 
   };
 };
@@ -36,6 +39,7 @@ const mapStateToProps = (state) => {
     allCollections: state.posts.allCollections,
     isLoadingAllCollections: state.posts.isLoadingAllCollections,
     isLoadingDeleteSave: state.posts.isLoadingDeleteSave,
+    isLoadingDeleteCollection: state.posts.isLoadingDeleteCollection,
   };
 };
 export default withRouter((connect(mapStateToProps, mapDispatchToProps)(SavesContainer)));

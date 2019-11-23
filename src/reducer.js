@@ -30,6 +30,7 @@ const state = {
   collectionSaves:[],
   isLoadingPreviewImg: false,
   previewImg: {},
+  isLoadingDeleteCollection: false,
 
 };
 
@@ -174,6 +175,16 @@ function reducer(globalState = state, action) {
         ...globalState,
         isLoadingPreviewImg: false,
         previewImg: action.payload,
+    };
+    case actionTypes.DELETE_COLLECTION_PENDING:
+    return {
+      ...globalState,
+      isLoadingDeleteCollection: true,
+    };
+    case actionTypes.DELETE_COLLECTION_FULFILLED:
+      return {
+      ...globalState,
+      isLoadingDeleteCollection: false,
     };
 
     

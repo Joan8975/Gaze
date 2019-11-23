@@ -26,7 +26,7 @@ export class Saves extends Component {
   }
   // 有刷新跑這邊，isAuthenticated state 有改變才做
   componentDidUpdate(prevProps,prevState) {
-    const { history,isAuthenticated,getAllSaves,getAllCollections,isLoadingDeleteSave } = this.props;
+    const { history,isAuthenticated,getAllSaves,getAllCollections,isLoadingDeleteSave,isLoadingDeleteCollection } = this.props;
     if (prevProps.isAuthenticated === false && isAuthenticated === true) {
       getAllSaves(firebase.auth().currentUser.email)
       getAllCollections(firebase.auth().currentUser.email)
@@ -38,6 +38,9 @@ export class Saves extends Component {
     this.timer = setTimeout(
       () => {
         if (prevProps.isLoadingDeleteSave === false && isLoadingDeleteSave === true) {
+          window.location.reload();
+        }
+        if (prevProps.isLoadingDeleteCollection === false && isLoadingDeleteCollection === true) {
           window.location.reload();
         }
       },
@@ -57,7 +60,7 @@ export class Saves extends Component {
     })
   }
 
-  handleDelete(imgId, collection) {
+  handleDeleteImg(imgId, collection) {
     const { deleteSingleSave } = this.props;
     const deleteSave = {
       email: firebase.auth().currentUser.email,
@@ -66,6 +69,18 @@ export class Saves extends Component {
     }
     deleteSingleSave(deleteSave)
   }
+
+  handleDeleteCollection(collection) {
+    const { deleteSingleCollection } = this.props;
+    const deleteCollection = {
+      email: firebase.auth().currentUser.email,
+      collection,
+    }
+    // console.log(deleteCollection); 
+    
+    deleteSingleCollection(deleteCollection)
+  }
+  
 
   handleLogout = () => {
     this.props.isLoggedIn(false);
@@ -94,7 +109,7 @@ export class Saves extends Component {
               onMouseOver={() => this.handleHoverOver(allSaves[index].id)}
               onMouseOut={this.handleHoverOut}>
                 <button className={showDeleteBtn === allSaves[index].id? 'save_button':'hide_style'}
-                onClick={() => this.handleDelete(allSaves[index].imgId,allSaves[index].collection)} 
+                onClick={() => this.handleDeleteImg(allSaves[index].imgId,allSaves[index].collection)} 
                 ><i className="fas fa-trash-alt"></i></button>
                 <li key={allSaves[index].imgId} role="presentation" onClick={() => history.push(`/images/${allSaves[index].imgId}`)} >
                   <div className="preview">
@@ -116,9 +131,23 @@ export class Saves extends Component {
           allCollections.map((item, index) => {
             if (allCollections[index]) {
               return (
-                <li className="item item_m" onClick={() => history.push(`/collections/${item.collection}`)}>{item.collection}
-                  <img className="preview_img_m" src={item.content} alt="" />
-                </li>
+                <div className="item item_m"
+                onMouseOver={() => this.handleHoverOver(item.collection)}
+                onMouseOut={this.handleHoverOut}
+                >
+                  <button 
+                  // onMouseOver={() => this.handleHoverOver(item.collection)}
+                  // onMouseOut={this.handleHoverOut}
+                  className={showDeleteBtn === item.collection? 'save_button':'hide_style'}
+                  onClick={() => this.handleDeleteCollection(item.collection)} 
+                  ><i className="fas fa-trash-alt"></i></button>
+                  <li onClick={() => history.push(`/collections/${item.collection}`)}
+                    // onMouseOver={() => this.handleHoverOver(item.collection)}
+                    // onMouseOut={this.handleHoverOut}
+                    >{item.collection}
+                    <img className="preview_img_m" src={item.content} alt="" />
+                  </li>
+                </div>
               )
             }
           })
