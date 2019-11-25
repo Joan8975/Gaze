@@ -35,7 +35,7 @@ const state = {
 };
 
 function reducer(globalState = state, action) {
-  // console.log(action);
+  console.log(action);
   
   switch (action.type) {
     case actionTypes.UPDATE_NAV:

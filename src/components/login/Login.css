@@ -2,9 +2,13 @@
 /* *{
 	outline: 1px solid pink;
 } */
+
 .login_container{
-	width: 480px;
+	width: 100vw;
+	height: 100vh;
 	margin: 120px auto 0px auto;
+	background-image: url("./bgc_pattern.svg");
+	background-repeat: no-repeat;
 }
 .login_title{
 	font-size: 32px;
@@ -24,7 +28,6 @@ form{
 	display:flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-
 }
 .text_field{
 	margin: auto;
@@ -54,7 +57,7 @@ form{
 	background-color: #f9f3e8;
 	font-weight: normal;
 	font-size: 14px;
-	border-radius: 2px;
+	border-radius: 5px;
 	color: #dba23f;
 	text-align: center;
 	padding: 8px;
@@ -71,7 +74,7 @@ i{
 	border: solid 2px #e0e0e0;
 	padding: 0px 10px;
 	color: #4a4a4a;
-	border-radius: 2px;
+	border-radius: 5px;
 }
 .input_field::placeholder{
 	color: #a0a0a0;
@@ -119,7 +122,7 @@ i{
 	padding: 8px 130px;
 	text-align: center;
 	width: 100%;
-	border-radius: 2px;
+	border-radius: 5px;
 }
 
 .login_container .firebaseui-card-content{

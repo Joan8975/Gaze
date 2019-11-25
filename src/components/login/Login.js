@@ -70,7 +70,6 @@ class Login extends Component {
 
   render() {
     const { email ,hasEmailError, password, hasPasswordError , errorMsg} = this.state;
-    
     return (
       <div className="login_container">
         <div className="login_title">Great to see you again!</div>

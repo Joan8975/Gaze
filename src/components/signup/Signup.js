@@ -168,6 +168,7 @@ class Signup extends Component {
           </div>
           <button type="submit" className={`mid_button ${email === '' || password === '' || hasEmailError || hasPasswordError ? 'disable_button': 'common_button'}`} onClick={this.handleSubmit} >Submit</button>
         </form>
+        <p>Already have an account? <Link className="note_button" to="/login">Login</Link></p>
       </div>
     )
   }

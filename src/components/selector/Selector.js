@@ -74,7 +74,7 @@ export class Selector extends Component {
     return (
     <Fragment>
     	<div className="selector_container">
-    	  {previewImg.urls && <img className="preview_img_l" src={previewImg.urls.regular} alt="" /> }
+    	  {previewImg.urls && <img className="preview_img_l" src={previewImg.urls.regular} alt="" />}
     	  <div class="edit_collect">
     	    <div className="selector_title">Save to Collection</div>
             {!editMode? <button className="add_button" onClick={this.handleEditMode}>+ Create a new collection</button>:editCollection}

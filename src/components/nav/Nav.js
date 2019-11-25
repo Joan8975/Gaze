@@ -70,12 +70,11 @@ class Nav extends Component {
       </nav>
     )
 
-
     return(
       <Fragment>
         <Notifications />
         <div className="nav_bar">
-          <MenuLink activeOnlyWhenExact={true} to="/" label="Gaze" updateNav={updateNav} className="tab_home"/>
+          <MenuLink activeOnlyWhenExact={true} to="/" updateNav={updateNav} className="tab_home"/>
           {topSearch && 
           <div hidden className="top_search">    
             <input type="text" className="search_txt" name="query"          

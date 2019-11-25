@@ -7,7 +7,6 @@ import Loading from '../loading/Loading';
 import Masonry from 'react-masonry-css'
 import Fade from 'react-reveal/Fade';
 import Selector from '../../containers/SelectorContainer'
-import InfiniteScroll from 'react-infinite-scroller';
 
 
 
@@ -80,17 +79,10 @@ class Home extends Component {
     } else {
       showTopSearch(false);
     }
-
+    // 下拉加載
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
     const scrollHeight = document.documentElement.scrollHeight;
-    console.log('scrollTop='+scrollTop,'scrollHeight='+scrollHeight,'clientHeight='+clientHeight);
-    console.log(scrollHeight-clientHeight);
-
-    
-    // 下拉加載
-    // const bottomLength = document.body.clientHeight-document.documentElement.scrollTop;
-    // console.log(bottomLength);
     if (scrollHeight-clientHeight === scrollTop) {
       const { page } = this.state;
       const { getImgsList,queryTxt,getRandomImgs,totalPage,isLoadingRandomImgs,isLoadingGetImgs } = this.props;
@@ -110,24 +102,6 @@ class Home extends Component {
             }));
           }
         }
-      }
-    }
-  }
-
-  fetchImages = () => {
-    const { page } = this.state;
-    const { getImgsList,queryTxt,getRandomImgs,totalPage } = this.props;
-    if(totalPage !== 0 && page !== totalPage){
-      if(queryTxt === ''){
-        getRandomImgs(1)
-        // this.setState((prevState) => ({
-        //   page: prevState.page + 1,
-        // }));
-      } else {
-        getImgsList(page + 1, queryTxt);
-        // this.setState((prevState) => ({
-        //   page: prevState.page + 1,
-        // }));
       }
     }
   }
@@ -178,15 +152,15 @@ class Home extends Component {
           <Search query={query} queryTxt={queryTxt} getImgsList={getImgsList} page={page} initImgs={initImgs} history={history} syn={syn} isLoadingSynonym={isLoadingSynonym} getSynonymList={getSynonymList}
           handleSearchTxt={this.handleSearchTxt}
           />
+          {isLoadingGetImgs ? <Loading /> :
           <ul>
             <Masonry
               breakpointCols={breakpointColumnsObj}
               className="my-masonry-grid"
               columnClassName="my-masonry-grid_column"
             >
-              {(!isLoadingGetImgs || !isLoadingRandomImgs)
-                && imgs.map((item, index) => {
-                  if (imgs[index]) {
+              {imgs.map((item, index) => {
+                  if (index > 0 && imgs[index]) {
                     return (
                       <div className="outter"                           
                       onMouseOver={() => this.handleHoverOver(imgs[index].id)}
@@ -206,10 +180,10 @@ class Home extends Component {
                 })
               }
             </Masonry>
-            {/* {(isLoadingGetImgs || isLoadingRandomImgs) && <Loading />} */}
             {totalPage === 0 && <div className="empt_notice">No results found, please try different keyword.</div>}
             {page === totalPage && <div className="empt_notice">{`${page} / ${totalPage}`}</div>}
           </ul>
+          }
         </div>
       </Fragment>
     );

@@ -1,6 +1,5 @@
 /* jsx-a11y/no-static-element-interactions */
 import React, { Component,Fragment } from 'react'
-import './Collections.css';
 import Masonry from 'react-masonry-css'
 import firebase from 'firebase';
 import Loading from '../loading/Loading';
@@ -8,15 +7,8 @@ import Loading from '../loading/Loading';
 export class Collections extends Component {
   constructor(props) {
     super(props);
-    const {
-      match: {
-      params: {
-        collectionName,
-      },
-      },
-      } = this.props;
     this.state = {
-      currentCollection: decodeURI(collectionName),
+      currentCollection: decodeURI(this.props.match.params.collectionName),
       showDeleteBtn: '',
     };
   }
