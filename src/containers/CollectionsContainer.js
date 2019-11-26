@@ -16,13 +16,6 @@ const mapDispatchToProps = (dispatch) => {
     deleteSingleSave: (deleteSave) => {
       dispatch(actions.deleteSingleSave(deleteSave));
     }
-    // getAllCollections: (email) => {
-    //   dispatch(actions.getAllCollections(email));
-    // },
-    // deleteSingleSave: (deleteSave) => {
-    //   dispatch(actions.deleteSingleSave(deleteSave));
-    // }
-
   };
 };
 const mapStateToProps = (state) => {
@@ -32,10 +25,6 @@ const mapStateToProps = (state) => {
     collectionSaves: state.posts.collectionSaves,
     isLoadingDeleteSave: state.posts.isLoadingDeleteSave,
     deleteSaveMsg: state.posts.deleteSaveMsg,
-    // isLoadingAllSaves: state.posts.isLoadingAllSaves,
-    // allSaves: state.posts.allSaves,
-    // allCollections: state.posts.allCollections,
-    // isLoadingAllCollections: state.posts.isLoadingAllCollections,
   };
 };
 export default withRouter((connect(mapStateToProps, mapDispatchToProps)(CollectionsContainer)));

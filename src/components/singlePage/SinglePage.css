@@ -1,14 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
-
-/* *{
-	outline: 1px solid pink;
-} */
-.single_container{
+.single_container {
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.single_img{
+.single_img {
 	display: inline-block;
     flex: 70%;
     max-width: 70%;
@@ -17,7 +12,7 @@
 	padding: 0px 20px;
 }
 
-.single_info{
+.single_info {
     flex: 30%;
     max-width: 30%;
 	/* max-width: 360px; */
@@ -25,6 +20,7 @@
 	display: inline-block;
 	padding: 30px 20px;
 }
+
 @media screen and (max-width: 1100px) {
 	.single_img {
 		flex: 100%;
@@ -35,13 +31,15 @@
 		max-width: 100%;
 	}
 }
-.single_info::before{
+
+.single_info::before {
 	content:'';
 	height: 100%;
 	width: 0px;
 	display: inline-block;
 	vertical-align: middle;
 }
+
 .save_button_dark {
 	position: absolute;
 	top: 40px;
@@ -56,10 +54,10 @@
 	font-size: 22px;	
 	opacity: 0.8;
 }
+
 .save_button_dark:hover {
 	opacity: 1;
 }
-
 
 .creater{
 	vertical-align: middle;
@@ -111,7 +109,14 @@
 	border: 1px solid #f3f3f3;
 }
 
-.related_images{
+.related_images {
 	margin: 30px 0;
 }
 
+.related_title {
+	font-size: 20px;
+	font-weight: bold;
+	margin: 30px auto 0 auto;
+	text-align: center;
+	color: #4a4a4a;
+}

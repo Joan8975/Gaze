@@ -12,35 +12,29 @@ class SinglePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
       hoveredImg: '',
       previewId:'',
       currentImgId: this.props.match.params.imgId,
     };
-    const {initImgs } = this.props;
+    const { initImgs } = this.props;
     initImgs([]);
   }
 
   componentDidMount() {
     const { currentImgId } = this.state;
-    const { getSingleImg, } = this.props;
+    const { getSingleImg } = this.props;
     getSingleImg(currentImgId );
-    // window.addEventListener('scroll', this.handlePageScroll);
   }
-
-  // componentWillUnmount() {
-  //   window.removeEventListener('scroll', this.handlePageScroll);
-  // }
 
   componentDidUpdate(prevProps,prevState) {
     const { currentImgId } = this.state;
     const { isLoadingSingleImg,getImgsList,singleImg,getSingleImg,isLoadingSaveImg,initImgs } = this.props;
     if (prevProps.isLoadingSingleImg === true && isLoadingSingleImg === false) {
+      window.scrollTo(0,0);
       getImgsList(1,singleImg.tags[0].title)
-      console.log(singleImg.tags[0].title);
     }
     if (prevState.currentImgId !== currentImgId) {
-      getSingleImg(currentImgId );
+      window.location.reload()
     }
     if (prevProps.isLoadingSaveImg === true && isLoadingSaveImg === false) {
       this.setState({
@@ -49,23 +43,6 @@ class SinglePage extends Component {
       document.body.style.overflow = "visible"
     }
   }
-
-  // handlePageScroll = () => {
-  //   // 下拉加載
-  //   const scrollTop = document.documentElement.scrollTop;
-  //   const clientHeight = document.documentElement.clientHeight;
-  //   const scrollHeight = document.documentElement.scrollHeight;
-  //   if (scrollHeight-clientHeight === scrollTop) {
-  //     const { page } = this.state;
-  //     const { getImgsList,singleImg,isLoadingGetImgs} = this.props;
-  //     if(!isLoadingGetImgs && singleImg.tags){
-  //       getImgsList(page + 1,singleImg.tags[0].title)
-  //       this.setState((prevState) => ({
-  //         page: prevState.page + 1,
-  //       }))
-  //     }
-  //   }
-  // }
 
   handleHoverOver(id){
     this.setState({
@@ -101,8 +78,6 @@ class SinglePage extends Component {
     })
     document.body.style.overflow = "visible"
   }
-
-
 
   render() {
     const { page,hasMore,previewId,showSelector,hoveredImg,createName,editMode} = this.state;
@@ -153,7 +128,7 @@ class SinglePage extends Component {
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column"
         >
-          {imgs.map((item, index) => {
+          {imgs ? imgs.map((item, index) => {
             if (imgs[index]) {
               return (
                 <div className="outter"                           
@@ -173,7 +148,7 @@ class SinglePage extends Component {
                 </div>
               );
             }
-          })}
+          }): <Loading />}
         </Masonry>
       </ul>
     )
@@ -184,6 +159,7 @@ class SinglePage extends Component {
         handleClose={this.handleClose}/>}
         <div className="container">
           {singlePhoto}
+          <p className="related_title">More Like this</p>
           {relatedImg}
         </div>
       </Fragment>

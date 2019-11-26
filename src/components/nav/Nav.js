@@ -1,10 +1,6 @@
-/* eslint-disable react/no-children-prop */
-/* eslint-disable react/jsx-boolean-value */
-
 import React, { Component,Fragment }  from 'react';
 import './Nav.css';
 import { Route, Link } from 'react-router-dom';
-import firebase from 'firebase';
 import Notifications, {notify} from 'react-notify-toast';
 
 const MenuLink = ({ label, to, activeOnlyWhenExact, updateNav,className }) => (
@@ -32,31 +28,25 @@ class Nav extends Component {
       history.push('/search/'+ queryTxt);
     }
   }
-
   
   componentDidUpdate(prevProps,prevState) {
     const { isLoadingSaveImg,isLoadingDeleteSave,isLoadingDeleteCollection} = this.props;
     if (prevProps.isLoadingSaveImg === false && isLoadingSaveImg === true) {
-      let myColor = { 
-        background: "#244091", 
-        text: "#FFFFFF",
-       };
-      notify.show("Save successfully!", "custom", 5000, myColor);
+      let myColor = { background: "#d6bb8b", text: "#FFFFFF" };
+      notify.show("Saved successfully!", "custom", 2000, myColor);
     }
     if (prevProps.isLoadingDeleteSave === false && isLoadingDeleteSave === true) {
-      let myColor = { background: '#0E1717', text: "#FFFFFF" };
-      notify.show("Delete successfully!", "custom", 5000, myColor);
+      let myColor = { background: '#d6bb8b', text: "#FFFFFF" };
+      notify.show("Deleted successfully", "custom", 2000, myColor);
     }
     if (prevProps.isLoadingDeleteCollection === false && isLoadingDeleteCollection === true) {
-      let myColor = { background: '#0E1717', text: "#FFFFFF" };
-      notify.show("Delete successfully!", "custom", 5000, myColor);
+      let myColor = { background: '#d6bb8b', text: "#FFFFFF" };
+      notify.show("Deleted successfully", "custom", 2000, myColor);
     }
-
   }
 
   render() {
     const {updateNav,queryTxt,topSearch, isAuthenticated } = this.props
-
     const userLinks = (
       <nav>
         <MenuLink activeOnlyWhenExact={true} to="/" label="Home" updateNav={updateNav} className="tab"/>
@@ -69,7 +59,6 @@ class Nav extends Component {
         <MenuLink to="/Signup" label="Sign up now!" updateNav={updateNav} className="tab_signup"/>
       </nav>
     )
-
     return(
       <Fragment>
         <Notifications />

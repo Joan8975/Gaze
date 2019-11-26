@@ -11,7 +11,6 @@ import fbConfig from './config/fbConfig'
 
 const reducers = combineReducers({
   nav: navReducer,
-  fields: fieldReducer,
   posts: postsReducer,
 });
 

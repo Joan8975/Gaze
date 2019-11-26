@@ -1,5 +1,3 @@
-/* jsx-a11y/no-static-element-interactions */
-
 import React, { Component, Fragment } from 'react';
 import './Home.css';
 import Search from '../search/Search'
@@ -8,17 +6,13 @@ import Masonry from 'react-masonry-css'
 import Fade from 'react-reveal/Fade';
 import Selector from '../../containers/SelectorContainer'
 
-
-
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1, // 目前的頁碼
+      page: 1,
       hoveredImg: '',
       previewId:'',
-      // createName:'',
-      // editMode: false,
       searchTxt: this.props.match.params.query === undefined ? '' : this.props.match.params.query,
     };
   }
@@ -27,9 +21,7 @@ class Home extends Component {
     const { getImgsList,query,getRandomImgs, getSynonymList,initImgs,showTopSearch} = this.props;
     const { page} = this.state;
     window.addEventListener('scroll', this.handleScroll);
-    window.addEventListener('scroll', this.handleLoandMore);
     showTopSearch(false);
-
     if(this.props.match.params.query !== undefined) { //依照關鍵字搜尋
       initImgs([])
       query(this.props.match.params.query)
@@ -44,13 +36,11 @@ class Home extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
-    window.removeEventListener('scroll', this.handleLoandMore);
   }
 
   componentDidUpdate(prevProps,prevState) {
     const { isLoadingSaveImg,getImgsList,query, getSynonymList,initImgs} = this.props;
     const { page,searchTxt } = this.state;
-
     if (prevProps.isLoadingSaveImg === true && isLoadingSaveImg === false) {
       this.setState({
         showSelector:false,
@@ -72,7 +62,7 @@ class Home extends Component {
   }
 
   handleScroll = () => {
-    // topSearchBar
+    // Top Search Bar
     const { showTopSearch } = this.props
     if( document.documentElement.scrollTop > 250) {
       showTopSearch(true);
@@ -124,7 +114,6 @@ class Home extends Component {
       showSelector: true,
     })
     document.body.style.overflow = "hidden"
-    // alert('ok')
   }
 
   handleClose = () => {
@@ -137,7 +126,7 @@ class Home extends Component {
   render() {
     
     const { page,previewId,showSelector,hoveredImg } = this.state;
-    const { history, imgs, isLoadingGetImgs,query,queryTxt,getImgsList,initImgs, isLoadingRandomImgs,syn,isLoadingSynonym, getSynonymList, isAuthenticated,totalPage} = this.props;
+    const { history, imgs ,query,queryTxt,getImgsList,initImgs,syn,isLoadingSynonym, getSynonymList, isAuthenticated,totalPage} = this.props;
     const breakpointColumnsObj = {
       default: 3,
       1100: 2,
@@ -148,11 +137,9 @@ class Home extends Component {
         <div className="container" >
           {showSelector && <Selector showSelector = {true}  previewId={previewId} 
           handleClose={this.handleClose}/>}
-
           <Search query={query} queryTxt={queryTxt} getImgsList={getImgsList} page={page} initImgs={initImgs} history={history} syn={syn} isLoadingSynonym={isLoadingSynonym} getSynonymList={getSynonymList}
-          handleSearchTxt={this.handleSearchTxt}
-          />
-          {isLoadingGetImgs ? <Loading /> :
+          handleSearchTxt={this.handleSearchTxt}/>
+          {imgs ?
           <ul>
             <Masonry
               breakpointCols={breakpointColumnsObj}
@@ -183,7 +170,7 @@ class Home extends Component {
             {totalPage === 0 && <div className="empt_notice">No results found, please try different keyword.</div>}
             {page === totalPage && <div className="empt_notice">{`${page} / ${totalPage}`}</div>}
           </ul>
-          }
+          : <Loading />}
         </div>
       </Fragment>
     );

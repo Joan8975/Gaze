@@ -1,7 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
-/* *{
-	outline: 1px solid pink;
-} */
 
 .login_container{
 	width: 100vw;
@@ -10,18 +7,21 @@
 	background-image: url("./bgc_pattern.svg");
 	background-repeat: no-repeat;
 }
+
 .login_title{
 	font-size: 32px;
 	margin-bottom: 40px;
 	color: #a0a0a0;
 	text-align: center;
 }
+
 .login_container p {
 	font-size: 16px;
 	color: #a0a0a0;
 	display: block;
 	text-align: center;
 }
+
 form{
 	width: 480px;
 	margin: 10px auto;
@@ -29,13 +29,11 @@ form{
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
+
 .text_field{
 	margin: auto;
 	height: 90px;
 }
-/* .text_field i {
-	margin: 0px 5px;
-} */
 
 .input_title{
 	font-weight: normal;
@@ -44,15 +42,18 @@ form{
 	width: 480px;
 	height:20px;
 }
+
 .input_hide{
 	visibility: hidden;
 }
+
 .react-inputs-validation__msg_identifier {
 	font-weight: normal;
 	font-size: 14px;
 	color: #dba23f;
 	text-align: right;
 }
+
 .errorMsg {
 	background-color: #f9f3e8;
 	font-weight: normal;
@@ -64,6 +65,7 @@ form{
 	margin: 20px auto 10px auto;
 	width: 480px;
 }
+
 i{
 	margin: 0px 5px;
 }
@@ -76,12 +78,15 @@ i{
 	color: #4a4a4a;
 	border-radius: 5px;
 }
+
 .input_field::placeholder{
 	color: #a0a0a0;
 }
+
 .input_empt{
 	border: solid 2px #d6bb8b;
 }
+
 .input_field:focus {
 	border: solid 2px #48e3ee;
 	outline: none;
@@ -140,20 +145,4 @@ i{
 .login_container .firebaseui-idp-google:hover {
 	border: 1px solid #aaaaaa;
 	transition: all 0.3s ease;
-}
-
-.login_container .firebaseui-idp-github {
-	background-color: #333333;
-}
-
-.login_container .firebaseui-idp-github:hover {
-	background-color: #1c1c1c;
-}
-
-.login_container .firebaseui-idp-facebook {
-	background-color: #3b5998;
-}
-
-.login_container .firebaseui-idp-facebook:hover{
-	background-color: #2e487c;
 }

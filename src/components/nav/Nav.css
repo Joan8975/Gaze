@@ -1,8 +1,3 @@
-/* *{
-	outline: 1px solid pink;
-	
-} */
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
 nav{
 	font-size: 0px;
 	text-align: right;
@@ -15,21 +10,20 @@ nav{
 	width: 100%;
 	background-color: #fff;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-	/* box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.05); */
 	position: fixed;
 	top:0px;
 	z-index: 4;
 	height: 60px;
 	padding: 0px 20px;
-	/* text-align: center; */
 }
+
 .nav_bar::before{
 	content:'';
 	line-height: 60px;
 	vertical-align: middle;
 }
+
 .tab_home{
-	/* font-size: 20px; */
 	margin-right: 20px;
 	background-size: 100%;
 	display: inline-block;
@@ -39,11 +33,13 @@ nav{
 	background-repeat:no-repeat;
 	background-image: url("./icon_gaze_logo.svg");
 }
+
 @media screen and (max-width: 700px) {
 	.tab_home{
 		display: none;
 	}
 }
+
 .tab{
 	margin: 0px 10px;
 	border: none;
@@ -57,43 +53,11 @@ nav{
 	cursor: pointer;
 	position: relative;
 }
-/* .tab::after{
-	content: "";
-    display: block;
-    width: 0px;
-	height: 4px;
-	position: absolute;
-	bottom: 0px;
-	left: 0px;
-	background: #243d93;
-    transition: all 0.6s ease 0s;
-}
 
-.tab:hover::after {
-	width: 80px;
-	height: 4px;
-	background: #243d93;
-} */
-.tab:focus{
+.tab:focus, .tab:hover, .tab_active{
 	outline: none;
 	color:#243d93;
 }
-.tab:hover{
-	color:#243d93;
-}
-.tab_active{
-	color:#243d93;
-}
-/* .tab_active::after{
-	content: "";
-    display: block;
-    width: 80px;
-	height: 4px;
-	position: absolute;
-	bottom: 0px;
-	left: 0px;
-    background: #243d93;
-} */
 
 .tab_signup {
 	background: linear-gradient(90deg, #244091 0%, rgba(72,227,238,1) 100%);
@@ -110,7 +74,6 @@ nav{
 	border: 2px solid #48e3ee;;
 	color: #48e3ee;
 	padding: 8px 14px;
-	/* transition: all 0.3s ease 0s; */
 }
 
 .top_search{
@@ -122,6 +85,7 @@ nav{
 	position: relative;
 	vertical-align: middle;
 }
+
 .search_txt{
 	background-color: transparent;
 	width: 32vw;
@@ -130,6 +94,7 @@ nav{
 	font-size: 16px;
 	color: #4a4a4a;
 }
+
 .top_search i{
 	position: absolute;
 	font-size: 20px;

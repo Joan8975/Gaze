@@ -2,10 +2,6 @@ import * as actionTypes from './actionTypes';
 
 const state = {
   navText: '/',
-  invalidInput: [],
-  author: '',
-  title: '',
-  body: '',
   imgs: [],
   isLoadingGetImgs: false,
   isLoadingRandomImgs: false,
@@ -16,8 +12,6 @@ const state = {
   singleImg: {},
   isLoadingSingleImg: false,
   isLoadingLogIn: false,
-  response: '',
-  authError: null,
   isAuthenticated: false,
   allCollections:[],
   isLoadingAllCollections: false,
@@ -31,12 +25,10 @@ const state = {
   isLoadingPreviewImg: false,
   previewImg: {},
   isLoadingDeleteCollection: false,
-
 };
 
 function reducer(globalState = state, action) {
-  console.log(action);
-  
+  // console.log(action);
   switch (action.type) {
     case actionTypes.UPDATE_NAV:
       return {
@@ -65,7 +57,6 @@ function reducer(globalState = state, action) {
         imgs: globalState.imgs.concat(action.payload.results),
         totalPage: action.payload.total_pages
       };
-
     case actionTypes.GET_RANDOM_IMGS_PENDING:
       return {
         ...globalState,
@@ -78,7 +69,6 @@ function reducer(globalState = state, action) {
         imgs: globalState.imgs.concat(action.payload),
         totalPage: 50
     };
-
     case actionTypes.GET_SYNNONYM_PENDING:
     return {
       ...globalState,
@@ -186,11 +176,6 @@ function reducer(globalState = state, action) {
       ...globalState,
       isLoadingDeleteCollection: false,
     };
-
-    
-
-
-
     default:
       return globalState;
   }

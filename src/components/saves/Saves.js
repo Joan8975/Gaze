@@ -1,10 +1,7 @@
-/* jsx-a11y/no-static-element-interactions */
 import React, { Component,Fragment } from 'react'
 import './Saves.css';
 import Masonry from 'react-masonry-css'
 import firebase from 'firebase';
-
-
 
 export class Saves extends Component {
   constructor(props) {
@@ -15,7 +12,7 @@ export class Saves extends Component {
       showDeleteBtn: '',
     };
   }
-  //沒刷新跑這邊，每一次進來都會做
+
   componentDidMount() {
     const { isAuthenticated, getAllSaves,getAllCollections,showTopSearch } = this.props;
     if(isAuthenticated) {
@@ -24,7 +21,7 @@ export class Saves extends Component {
       showTopSearch(true);
     }
   }
-  // 有刷新跑這邊，isAuthenticated state 有改變才做
+
   componentDidUpdate(prevProps,prevState) {
     const { history,isAuthenticated,getAllSaves,getAllCollections,isLoadingDeleteSave,isLoadingDeleteCollection } = this.props;
     if (prevProps.isAuthenticated === false && isAuthenticated === true) {
@@ -76,17 +73,13 @@ export class Saves extends Component {
       email: firebase.auth().currentUser.email,
       collection,
     }
-    // console.log(deleteCollection); 
-    
     deleteSingleCollection(deleteCollection)
   }
-  
 
   handleLogout = () => {
     this.props.isLoggedIn(false);
     firebase.auth().signOut()
   }
-
 
   render() {
     const { history,isAuthenticated,allSaves,allCollections}=this.props;
@@ -135,16 +128,12 @@ export class Saves extends Component {
                 onMouseOver={() => this.handleHoverOver(item.collection)}
                 onMouseOut={this.handleHoverOut}
                 >
-                  <button 
-                  // onMouseOver={() => this.handleHoverOver(item.collection)}
-                  // onMouseOut={this.handleHoverOut}
+                  <button
                   className={showDeleteBtn === item.collection? 'save_button':'hide_style'}
                   onClick={() => this.handleDeleteCollection(item.collection)} 
                   ><i className="fas fa-trash-alt"></i></button>
-                  <li onClick={() => history.push(`/collections/${item.collection}`)}
-                    // onMouseOver={() => this.handleHoverOver(item.collection)}
-                    // onMouseOut={this.handleHoverOut}
-                    >{item.collection}
+                  <li onClick={() => history.push(`/collections/${item.collection}`)}>
+                    {item.collection}
                     <img className="preview_img_m" src={item.content} alt="" />
                   </li>
                 </div>

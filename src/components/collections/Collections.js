@@ -2,7 +2,6 @@
 import React, { Component,Fragment } from 'react'
 import Masonry from 'react-masonry-css'
 import firebase from 'firebase';
-import Loading from '../loading/Loading';
 
 export class Collections extends Component {
   constructor(props) {
@@ -86,7 +85,7 @@ export class Collections extends Component {
           breakpointCols={breakpointColumnsObj}
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column">
-          {collectionSaves.map((item, index) => {
+          {collectionSaves && collectionSaves.map((item, index) => {
             return (
               <Fragment>
                   <div className="outter"

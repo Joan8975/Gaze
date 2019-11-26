@@ -1,12 +1,9 @@
-/* jsx-a11y/no-static-element-interactions */
 import React, { Component } from 'react'
 import './Login.css';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import { withRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Textbox } from "react-inputs-validation";
-
-
 
 class Login extends Component {
   state = {
@@ -22,24 +19,23 @@ class Login extends Component {
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-      // firebase.auth.GithubAuthProvider.PROVIDER_ID
     ],
     callbacks: {
       signInSuccessWithAuthResult: () => false
     }
   };
+
   componentDidMount() {
     const { isLoggedIn } = this.props;
     firebase.auth().onAuthStateChanged(
       (user) => {
         isLoggedIn(!!user)
-        console.log("user",user)
       }
     );
   }
 
   componentDidUpdate(prepProps,prevState) {
-    const {isAuthenticated } = this.props;
+    const { isAuthenticated } = this.props;
     if (prepProps.isAuthenticated === false && isAuthenticated === true) {
         const { history } = this.props;
         history.push('/');
@@ -54,7 +50,7 @@ class Login extends Component {
           email,
           password
         ).catch(error => {
-          console.log('err='+error.code,error.message);
+          // console.log('err='+error.code,error.message);
           if (error !== '') {
             this.setState({
               email: "",
@@ -73,7 +69,9 @@ class Login extends Component {
     return (
       <div className="login_container">
         <div className="login_title">Great to see you again!</div>
-        <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
+        <div class="con">
+          <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
+        </div>
         <p>or</p>
         <form>
           {errorMsg !== '' ? <div className="errorMsg "><i class="fas fa-exclamation-circle"></i>{errorMsg}</div>: ''}
@@ -155,4 +153,4 @@ class Login extends Component {
   }
 }
 
-export default withRouter(Login)
+export default Login

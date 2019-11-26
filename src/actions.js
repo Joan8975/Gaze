@@ -8,7 +8,6 @@ export const updateNav = (text) => {
   };
 };
 
-
 export const query = text => {
   return {
     type: actionTypes.QUERY,

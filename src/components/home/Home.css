@@ -1,11 +1,8 @@
-
-/* *{
-	outline: 1px solid pink;
-} */
-.outter{
+.outter {
 	position: relative;
 }
-.hover_layer{
+
+.hover_layer {
 	position: absolute;
 	border-radius: 5px;
 	z-index: 2;
@@ -16,11 +13,11 @@
 	background: linear-gradient(180deg,rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 50%);
 }
 
-li{
+li {
 	list-style-type: none;
-	}
+}
 
-.outter img{
+.outter img {
     height: auto;
 	border: none;
 	width: 100%;
@@ -34,34 +31,13 @@ li{
 	width: auto;
 	margin-left: -10px;
 }
+
 .my-masonry-grid_column {
 	background-clip: padding-box;
 	cursor: pointer;
 	padding-left: 10px; /* gutter size */
 }
 
-/* m-img
-li .preview{
-	position: relative;
-} */
-
-/* .preview::before {
-	position: absolute;
-	z-index: 1;
-	top: 0;
-	left:0;
-	width: 100%;
-	height: 100%;
-	content: "";
-	opacity: 0;
-}
-
-.preview:hover::before {
-	z-index: 1;
-	opacity: 0.8;
-	background: linear-gradient(180deg,rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 50%);
-    transition: all 0.6s ease 0s;
-} */
 .save_button {
 	position: absolute;
 	top: 12px;
@@ -77,6 +53,7 @@ li .preview{
 	cursor: pointer;
 	font-size: 22px;
 }
+
 .save_button:hover {
 	opacity: 1;
 }

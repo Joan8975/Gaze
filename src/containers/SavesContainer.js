@@ -28,7 +28,6 @@ const mapDispatchToProps = (dispatch) => {
     deleteSingleCollection: (deleteCollection) => {
       dispatch(actions.deleteSingleCollection(deleteCollection));
     },
-
   };
 };
 const mapStateToProps = (state) => {

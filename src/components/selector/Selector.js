@@ -14,15 +14,12 @@ export class Selector extends Component {
       editMode: false,
     };
   }
-  
 
   componentDidMount(){
     const { previewId,getPreviewImg,getAllCollections} = this.props;
     getPreviewImg(previewId)
     getAllCollections(firebase.auth().currentUser.email)
-
   }
-
 
   handleSave(collection){
     const { saveNewImg, previewId, previewImg } = this.props;
@@ -64,7 +61,6 @@ export class Selector extends Component {
   render() {
     const { handleClose,previewImg,allCollections} = this.props;
     const { createName,editMode } = this.state;
-
     const editCollection = (
       <div className="create_wrapper">
         <input className="add_input" placeholder="Create a collection" value={createName} onChange={this.handleCreate}/>
@@ -74,7 +70,8 @@ export class Selector extends Component {
     return (
     <Fragment>
     	<div className="selector_container">
-    	  {previewImg.urls && <img className="preview_img_l" src={previewImg.urls.regular} alt="" />}
+        {previewImg.urls ? <img className="preview_img_l" src={previewImg.urls.regular} alt="" />
+        :<div className="preview_img_l"><Loading /></div>}
     	  <div class="edit_collect">
     	    <div className="selector_title">Save to Collection</div>
             {!editMode? <button className="add_button" onClick={this.handleEditMode}>+ Create a new collection</button>:editCollection}

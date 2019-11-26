@@ -17,13 +17,14 @@ export class App extends Component {
       if (user) {
         // console.log("user",user);
         isLoggedIn(true);
-      } else {
-        console.log('No user is signed in.');
-      }
+      } 
+      // else {
+      //   console.log('No user is signed in.');
+      // }
     });
   }
   render() {
-    const { isAuthenticated, isLoggedIn,topSearch} = this.props;
+    const { isAuthenticated, isLoggedIn } = this.props;
     return (
       <Router>
       <div>

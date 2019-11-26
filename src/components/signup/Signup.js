@@ -1,8 +1,6 @@
-/* jsx-a11y/no-static-element-interactions */
 import React, { Component } from 'react'
-import './Signup.css';
 import firebase from 'firebase';
-import { withRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Textbox } from "react-inputs-validation";
 
 class Signup extends Component {
@@ -15,6 +13,7 @@ class Signup extends Component {
     hasPasswordError: false,
     errorMsg:"",
   };
+
   componentDidMount() {
     const { isLoggedIn } = this.props;
     firebase.auth().onAuthStateChanged(
@@ -25,7 +24,7 @@ class Signup extends Component {
     );
   }
 
-  componentDidUpdate(prepProps,prevState) {
+  componentDidUpdate(prepProps) {
     const {isAuthenticated } = this.props;
     if (prepProps.isAuthenticated === false && isAuthenticated === true) {
         const { history } = this.props;
@@ -41,7 +40,7 @@ class Signup extends Component {
         email,
         password
       ).catch(error => {
-        console.log('err='+error.code,error.message);
+        // console.log('err='+error.code,error.message);
         if (error !== '') {
           this.setState({
             email: "",
@@ -58,6 +57,7 @@ class Signup extends Component {
             displayName: this.state.username,
           }).then(() => {
             const displayName = user.displayName;
+            
           })
         }
       });
@@ -173,5 +173,4 @@ class Signup extends Component {
     )
   }
 }
-
-export default withRouter(Signup)
+export default Signup

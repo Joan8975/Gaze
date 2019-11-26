@@ -8,8 +8,8 @@
 
 .spinner {
 	animation: rotator 1.4s linear infinite;
-  }
-  
+}
+
 @keyframes rotator {
 0% { transform: rotate(0deg); }
 100% { transform: rotate(270deg); }
@@ -26,14 +26,14 @@ animation:
 
 @keyframes colors {
 	0% { stroke:#48e3ee; }
-50% { stroke: #243d93}
-100% { stroke: #48e3ee; }
+	50% { stroke: #243d93}
+	100% { stroke: #48e3ee; }
 }
 
 @keyframes dash {
-0% { stroke-dashoffset: 187; }
-100% {
-	stroke-dashoffset: 187;
-	transform:rotate(450deg);
-}
+	0% { stroke-dashoffset: 187; }
+	100% {
+		stroke-dashoffset: 187;
+		transform:rotate(450deg);
+	}
 }

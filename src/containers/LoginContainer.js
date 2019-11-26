@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Login from '../components/login/Login';
 import * as actions from '../actions';
 
@@ -19,4 +20,4 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.posts.isAuthenticated
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginContainer));

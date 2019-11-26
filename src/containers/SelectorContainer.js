@@ -19,7 +19,6 @@ const mapDispatchToProps = (dispatch) => {
     getPreviewImg: (imgId) => {
       dispatch(actions.getPreviewImg(imgId));
     },
-
   };
 };
 const mapStateToProps = (state) => {
@@ -29,7 +28,6 @@ const mapStateToProps = (state) => {
     isLoadingSaveImg: state.posts.isLoadingSaveImg,
     isLoadingPreviewImg: state.posts.isLoadingPreviewImg,
     previewImg: state.posts.previewImg,
-
   };
 };
 export default withRouter((connect(mapStateToProps, mapDispatchToProps)(SelectorContainer)));
