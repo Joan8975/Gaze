@@ -31,7 +31,7 @@ class SinglePage extends Component {
     const { isLoadingSingleImg,getImgsList,singleImg,getSingleImg,isLoadingSaveImg,initImgs } = this.props;
     if (prevProps.isLoadingSingleImg === true && isLoadingSingleImg === false) {
       window.scrollTo(0,0);
-      getImgsList(1,singleImg.tags[0].title)
+      if (singleImg.tags[0]) getImgsList(1, singleImg.tags[0].title);
     }
     if (prevState.currentImgId !== currentImgId) {
       window.location.reload()
@@ -102,18 +102,22 @@ class SinglePage extends Component {
                   <img className="create_profile" src={singleImg.user.profile_image.medium} alt="" />
                   <p className="creater_name">{singleImg.user.name}</p>
                 </div>
-                <p className="subtitle">Related tags</p>
-                <ul>
-                  {singleImg.tags.map((item, index) => {
-                      if ( index > 0 && index < 7  && singleImg.tags[index]) {
-                        return (
-                          <li className="single_tag" style={{ backgroundColor: [singleImg.color]}}
-                          onClick={() => history.push(`/search/${singleImg.tags[index].title}`)}>{singleImg.tags[index].title}</li>
-                        )
-                      }
-                    })
-                  }
-                </ul>
+                {singleImg.tags.length ? 
+                <div>
+                  <p className="subtitle">Related tags</p>
+                  <ul>
+                    {singleImg.tags.map((item, index) => {
+                        if ( index > 0 && index < 7  && singleImg.tags[index]) {
+                          return (
+                            <li className="single_tag" style={{ backgroundColor: [singleImg.color]}}
+                            onClick={() => history.push(`/search/${singleImg.tags[index].title}`)}>{singleImg.tags[index].title}</li>
+                          )
+                        }
+                      })
+                    }
+                  </ul>
+                </div>
+                : null}
               </div>
             </div>
           </div>
@@ -155,12 +159,17 @@ class SinglePage extends Component {
     
     return (
       <Fragment>
-        {showSelector && <Selector showSelector = {true}  previewId={previewId} 
-        handleClose={this.handleClose}/>}
+        {showSelector && (
+          <Selector
+            showSelector={true}
+            previewId={previewId}
+            handleClose={this.handleClose}
+          />
+        )}
         <div className="container">
           {singlePhoto}
-          <p className="related_title">More Like this</p>
-          {relatedImg}
+          {imgs.length ? <p className="related_title">More Like this</p>: null}
+          {imgs.length ? relatedImg : null}
         </div>
       </Fragment>
     );
