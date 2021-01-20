@@ -8,7 +8,7 @@
     "express-favicon": "^2.0.1",
     "firebase": "^7.3.0",
     "firebaseui": "^4.2.0",
-    "gsap": "^3.0.0",
+    "gsap": "^3.6.0",
     "path": "^0.12.7",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
